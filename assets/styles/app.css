@@ -5,19 +5,18 @@
     font-style: normal;
 }
 body {
-    background-color: rgb(90, 10, 10);
+    background-color:rgb(90, 10, 10);
     font-family: 'Maharlika', 'Old Standard';
 }
-
+/*  rgb(90, 10, 10) exact color */
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #e5e7eb;
     background-color: #f8fafc;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
     padding: 0.5rem 1.5rem;
     border-radius: 0.5rem;
+    background-color: rgb(90, 10, 10);
 }
 
 .navbar .flex-1 {
@@ -197,4 +196,58 @@ header,
 .dropdown-content.show,
 .menu.menu-sm.dropdown-content.show {
     display: block;
+}
+
+/* Carousel Base Styles */
+.carousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+.carousel-item {
+    flex: 0 0 auto;
+    scroll-snap-align: center;
+}
+
+.carousel-center {
+    justify-content: center;
+}
+
+/* Hide scrollbar but keep functionality */
+.carousel::-webkit-scrollbar {
+    display: none;
+}
+
+.carousel {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Optional: Add some hover effects */
+.carousel-item img {
+    transition: transform 0.3s ease;
+}
+
+.carousel-item:hover img {
+    transform: scale(1.05);
+}
+
+/* Make carousel full-width and images large */
+.carousel {
+    width: 100%;
+    height: 600px; /* Made taller */
+}
+
+.carousel-item {
+    width: 100%;
+    height: 100%;
+}
+
+.carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }

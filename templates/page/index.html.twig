@@ -1,16 +1,14 @@
 {% extends 'base.html.twig' %}
-
-
-
 {% block title %}Hello PageController!{% endblock %}
 
 {% block body %}
 
 <section>
-    <div class="container mx-auto flex flex-col items-center">
-        <div class="navbar bg-base-100 shadow-sm flex justify-between items-center w-full">
+    <div class="container mx-auto">
+        <div class="navbar bg-base-100 shadow-sm flex justify-between items-center">
             <div class="flex-1">
-                <a class="btn btn-ghost text-xl">SKADOOSH</a>
+                <a class="btn btn-ghost">
+                <img src="/Logo.png" alt="Logo" style="height:80px;"</a>
             </div>
             <div class="flex-none flex items-center gap-4">
                 <div class="dropdown dropdown-end">
@@ -52,9 +50,57 @@
             </div>
         </div>
         <header class="my-8 text-center flex flex-col items-center">
-            <h1 class="text-4xl font-bold mb-2">Welcome to SKADOOSH Clothing</h1>
-            <p class="text-lg text-gray-600 max-w-xl">Discover the latest trends and timeless styles. Shop quality clothing for every occasion.</p>
+            <h1 class="text-4xl font-bold mb-2">Welcome to SKADOOSH Apparel</h1>
+            <p class="text-lg text-gray-600 max-w-xl">Discover the latest trends and timeless styles. Shop quality for every occasion.</p>
         </header>
+            <div class="carousel carousel-center w-full h-[600px] rounded-box mb-8">
+            <div class="carousel-item w-full">
+                <img src="/Pattern.png" alt="Pattern" class="w-full object-cover" />
+            </div>
+            <div class="carousel-item w-full">
+                <img src="/Pattern.png" alt="Pattern" class="w-full object-cover" />
+            </div>
+            <div class="carousel-item w-full">
+                <img src="/Pattern2.png" alt="Apparel" class="w-full object-cover" />
+            </div>
+        </div>
+        </div>
+            <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const carousel = document.querySelector('.carousel');
+                if (carousel) {
+                    let isDown = false;
+                    let startX;
+                    let scrollLeft;
+
+                    carousel.addEventListener('mousedown', (e) => {
+                        isDown = true;
+                        carousel.classList.add('active');
+                        startX = e.pageX - carousel.offsetLeft;
+                        scrollLeft = carousel.scrollLeft;
+                    });
+
+                    carousel.addEventListener('mouseleave', () => {
+                        isDown = false;
+                        carousel.classList.remove('active');
+                    });
+
+                    carousel.addEventListener('mouseup', () => {
+                        isDown = false;
+                        carousel.classList.remove('active');
+                    });
+
+                    carousel.addEventListener('mousemove', (e) => {
+                        if (!isDown) return;
+                        e.preventDefault();
+                        const x = e.pageX - carousel.offsetLeft;
+                        const walk = (x - startX) * 2;
+                        carousel.scrollLeft = scrollLeft - walk;
+                    });
+                }
+            });
+            </script>
+        </div>
     </div>
 </section>
 {% endblock %}
