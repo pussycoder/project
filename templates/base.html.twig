@@ -13,5 +13,40 @@
     </head>
     <body>
         {% block body %}{% endblock %}
+        <script>
+        document.querySelectorAll('.dropdown').forEach(function(dropdown) {
+            const trigger = dropdown.querySelector('[role="button"]');
+            const menu = dropdown.querySelector('.dropdown-content, .menu');
+            if (trigger && menu) {
+                trigger.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    // Hide all other dropdowns
+                    document.querySelectorAll('.dropdown-content.show, .menu.menu-sm.dropdown-content.show').forEach(function(otherMenu) {
+                        if (otherMenu !== menu) {
+                            otherMenu.classList.remove('show');
+                        }
+                    });
+                    // Toggle this dropdown
+                    menu.classList.toggle('show');
+                });
+            }
+        });
+
+        // Special logic: clicking the indicator hides the avatar dropdown
+        document.addEventListener('click', function(e) {
+            // If indicator is clicked
+            const indicatorBtn = document.querySelector('.btn-ghost.btn-circle:not(.avatar)');
+            const avatarMenu = document.querySelector('.avatar ~ .menu.menu-sm.dropdown-content, .avatar ~ .dropdown-content');
+            if (indicatorBtn && avatarMenu && indicatorBtn.contains(e.target)) {
+                avatarMenu.classList.remove('show');
+            }
+            // Hide all dropdowns if clicking outside
+            document.querySelectorAll('.dropdown-content.show, .menu.menu-sm.dropdown-content.show').forEach(function(menu) {
+                if (!menu.contains(e.target)) {
+                    menu.classList.remove('show');
+                }
+            });
+        });
+        </script>
     </body>
 </html>
