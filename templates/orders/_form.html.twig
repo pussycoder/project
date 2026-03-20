@@ -1,0 +1,109 @@
+{{ form_start(form, {'attr': {'class': 'space-y-6'}}) }}
+    <!-- Customer Name Field -->
+    <div>
+        {{ form_label(form.customerName, 'Customer Name', {
+            'label_attr': {
+                'class': 'block text-sm font-semibold mb-2',
+                'style': 'color: #1e293b !important; font-weight: 600;'
+            }
+        }) }}
+        {{ form_widget(form.customerName, {
+            'attr': {
+                'class': 'block w-full px-4 py-3 border-1.5 rounded-lg transition-all duration-200 bg-white placeholder-gray-400',
+                'style': 'border-color: #cbd5e1 !important; color: #0f172a !important; font-weight: 500; background: #ffffff !important; font-family: Inter, sans-serif !important;'
+            }
+        }) }}
+        {% if form_errors(form.customerName) %}
+            <p class="mt-2 text-sm" style="color: #dc2626 !important;">{{ form_errors(form.customerName) }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Customer Email Field -->
+    <div>
+        {{ form_label(form.customerEmail, 'Customer Email', {
+            'label_attr': {
+                'class': 'block text-sm font-semibold mb-2',
+                'style': 'color: #1e293b !important; font-weight: 600;'
+            }
+        }) }}
+        {{ form_widget(form.customerEmail, {
+            'attr': {
+                'class': 'block w-full px-4 py-3 border-1.5 rounded-lg transition-all duration-200 bg-white placeholder-gray-400',
+                'style': 'border-color: #cbd5e1 !important; color: #0f172a !important; font-weight: 500; background: #ffffff !important; font-family: Inter, sans-serif !important;'
+            }
+        }) }}
+        {% if form_errors(form.customerEmail) %}
+            <p class="mt-2 text-sm" style="color: #dc2626 !important;">{{ form_errors(form.customerEmail) }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Shipping Address Field -->
+    <div>
+        {{ form_label(form.shippingAddress, 'Shipping Address', {
+            'label_attr': {
+                'class': 'block text-sm font-semibold mb-2',
+                'style': 'color: #1e293b !important; font-weight: 600;'
+            }
+        }) }}
+        {{ form_widget(form.shippingAddress, {
+            'attr': {
+                'class': 'block w-full px-4 py-3 border-1.5 rounded-lg transition-all duration-200 bg-white placeholder-gray-400',
+                'style': 'border-color: #cbd5e1 !important; color: #0f172a !important; font-weight: 500; background: #ffffff !important; font-family: Inter, sans-serif !important;',
+                'rows': 3
+            }
+        }) }}
+        {% if form_errors(form.shippingAddress) %}
+            <p class="mt-2 text-sm" style="color: #dc2626 !important;">{{ form_errors(form.shippingAddress) }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Status Field -->
+    <div>
+        {{ form_label(form.status, 'Status', {
+            'label_attr': {
+                'class': 'block text-sm font-semibold mb-2',
+                'style': 'color: #1e293b !important; font-weight: 600;'
+            }
+        }) }}
+        {{ form_widget(form.status, {
+            'attr': {
+                'class': 'block w-full px-4 py-3 border-1.5 rounded-lg transition-all duration-200 bg-white',
+                'style': 'border-color: #cbd5e1 !important; color: #0f172a !important; font-weight: 500; background: #ffffff !important; font-family: Inter, sans-serif !important;'
+            }
+        }) }}
+        {% if form_errors(form.status) %}
+            <p class="mt-2 text-sm" style="color: #dc2626 !important;">{{ form_errors(form.status) }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Total Price Field -->
+    <div>
+        {{ form_label(form.totalPrice, 'Total Price', {
+            'label_attr': {
+                'class': 'block text-sm font-semibold mb-2',
+                'style': 'color: #1e293b !important; font-weight: 600;'
+            }
+        }) }}
+        {{ form_widget(form.totalPrice, {
+            'attr': {
+                'class': 'block w-full px-4 py-3 border-1.5 rounded-lg transition-all duration-200 bg-white placeholder-gray-400',
+                'style': 'border-color: #cbd5e1 !important; color: #0f172a !important; font-weight: 500; background: #ffffff !important; font-family: Inter, sans-serif !important;'
+            }
+        }) }}
+        {% if form_errors(form.totalPrice) %}
+            <p class="mt-2 text-sm" style="color: #dc2626 !important;">{{ form_errors(form.totalPrice) }}</p>
+        {% endif %}
+    </div>
+
+    {{ form_rest(form) }}
+
+    <!-- Submit Button -->
+    <div class="pt-4">
+        <button type="submit" class="btn-primary w-full sm:w-auto px-8 py-3">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            {{ button_label|default('Save') }}
+        </button>
+    </div>
+{{ form_end(form) }}

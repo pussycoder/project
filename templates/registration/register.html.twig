@@ -1,0 +1,355 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create Account - SKADOOSH{% endblock %}
+
+{% block stylesheets %}
+<style>
+    /* Enhanced Register Page Styles - High Visibility with Pattern Background */
+    body {
+        background-image: url('{{ asset('Pattern.png') }}') !important;
+        background-size: cover !important;
+        background-position: center !important;
+        background-repeat: no-repeat !important;
+        background-attachment: fixed !important;
+        background-color: transparent !important;
+    }
+    
+    main {
+        background-color: transparent !important;
+    }
+
+    .card {
+        background: rgba(255, 255, 255, 0.85) !important;
+        border: 1.5px solid #e2e8f0 !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    /* Ensure text is readable on pattern background */
+    h1, h2, p, label {
+        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+    }
+
+    /* Input Fields - High Contrast */
+    input[type="text"], input[type="password"], input[type="email"] {
+        font-family: 'Inter', sans-serif !important;
+        color: #0f172a !important;
+        font-weight: 500 !important;
+        background: #ffffff !important;
+        border: 1.5px solid #cbd5e1 !important;
+    }
+
+    input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus {
+        border-color: #7a0000 !important;
+        box-shadow: 0 0 0 3px rgba(122, 0, 0, 0.15) !important;
+        background: #ffffff !important;
+        color: #0f172a !important;
+    }
+
+    input::placeholder {
+        color: #94a3b8 !important;
+        font-weight: 400;
+        opacity: 1 !important;
+    }
+
+    label {
+        color: #1e293b !important;
+        font-weight: 600 !important;
+        font-size: 0.875rem;
+    }
+
+    h1, h2 {
+        color: #0f172a !important;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+    }
+
+    p {
+        color: #475569 !important;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="min-h-[calc(100vh-200px)] flex items-center justify-center py-16 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-2xl w-full">
+    <!-- Header Section -->
+    <header class="text-center mb-8">
+      <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-red-900 to-red-700 rounded-2xl mb-4 shadow-lg">
+        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+        </svg>
+      </div>
+      <h1 class="text-4xl font-bold mb-2" style="color: #0f172a !important; font-weight: 800;">
+        Create Your Account
+      </h1>
+      <p class="text-base" style="color: #475569 !important; font-weight: 400;">
+        Fill in the details below to get started
+      </p>
+    </header>
+
+    <!-- Card Container -->
+    <div class="card p-8">
+      <!-- Form-level errors -->
+      {% if form_errors(registrationForm) %}
+        <div class="mb-6 px-4 py-3 rounded-lg border-2 animate-slide-in" style="background: #fef2f2 !important; border-color: #fecaca !important;">
+          <div class="flex items-start">
+            <div class="flex-shrink-0">
+              <svg class="w-5 h-5 mt-0.5" style="color: #dc2626 !important;" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+            <div class="ml-3">
+              <h3 class="text-sm font-semibold mb-1" style="color: #991b1b !important; font-weight: 700;">Please fix the following errors:</h3>
+              <ul class="space-y-1 text-sm" style="color: #b91c1c !important; font-weight: 500;">
+                {% for error in form_errors(registrationForm) %}
+                  <li>• {{ error.message }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+      <!-- Flash messages -->
+      {% for label, messages in app.flashes %}
+        {% for message in messages %}
+          <div class="mb-6 px-4 py-3 rounded-lg animate-slide-in border-2" 
+               style="{% if label == 'success' %}background: #f0fdf4 !important; border-color: #bbf7d0 !important;{% elseif label == 'error' %}background: #fef2f2 !important; border-color: #fecaca !important;{% else %}background: #eff6ff !important; border-color: #bfdbfe !important;{% endif %}">
+            <div class="flex items-center">
+              <svg class="w-5 h-5 flex-shrink-0" 
+                   style="{% if label == 'success' %}color: #16a34a !important;{% elseif label == 'error' %}color: #dc2626 !important;{% else %}color: #2563eb !important;{% endif %}" 
+                   fill="currentColor" viewBox="0 0 20 20">
+                {% if label == 'success' %}
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                {% else %}
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                {% endif %}
+              </svg>
+              <span class="ml-3 text-sm font-medium" 
+                    style="{% if label == 'success' %}color: #166534 !important;{% elseif label == 'error' %}color: #991b1b !important;{% else %}color: #1e40af !important;{% endif %} font-weight: 600;">
+                {{ message }}
+              </span>
+            </div>
+          </div>
+        {% endfor %}
+      {% endfor %}
+
+      <!-- Registration Form -->
+      {{ form_start(registrationForm, {'attr': {'class': 'space-y-6'}}) }}
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- First Name Field -->
+          <div>
+            <label class="block text-sm font-semibold mb-2" style="color: #1e293b !important; font-weight: 600;">
+              First Name
+            </label>
+            <div class="relative">
+              <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 pointer-events-none" style="color: #64748b;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+              </svg>
+              <input 
+                type="text" 
+                name="first_name" 
+                class="block w-full pl-10 pr-4 py-3 text-base border-1.5 rounded-lg transition-all duration-200 bg-white placeholder-gray-400"
+                style="border-color: #cbd5e1 !important; color: #0f172a !important; font-weight: 500; background: #ffffff !important;"
+                placeholder="First Name"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- Last Name Field -->
+          <div>
+            <label class="block text-sm font-semibold mb-2" style="color: #1e293b !important; font-weight: 600;">
+              Last Name
+            </label>
+            <div class="relative">
+              <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 pointer-events-none" style="color: #64748b;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+              </svg>
+              <input 
+                type="text" 
+                name="last_name" 
+                class="block w-full pl-10 pr-4 py-3 text-base border-1.5 rounded-lg transition-all duration-200 bg-white placeholder-gray-400"
+                style="border-color: #cbd5e1 !important; color: #0f172a !important; font-weight: 500; background: #ffffff !important;"
+                placeholder="Last Name"
+                required
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Username Field -->
+        <div>
+          {{ form_label(registrationForm.username, 'Username', {
+            'label_attr': {
+              'class': 'block text-sm font-semibold mb-2',
+              'style': 'color: #1e293b !important; font-weight: 600;'
+            }
+          }) }}
+          <div class="relative">
+            <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 pointer-events-none" style="color: #64748b;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            {{ form_widget(registrationForm.username, {
+              'attr': {
+                'class': 'block w-full pl-10 pr-4 py-3 text-base border-1.5 rounded-lg transition-all duration-200 bg-white placeholder-gray-400',
+                'style': 'border-color: #cbd5e1 !important; color: #0f172a !important; font-weight: 500; background: #ffffff !important;',
+                'placeholder': 'johndoe or john@example.com'
+              }
+            }) }}
+          </div>
+          {% if form_errors(registrationForm.username) %}
+            <div class="mt-2 flex items-start text-sm" style="color: #dc2626 !important;">
+              <svg class="w-4 h-4 mr-1.5 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+              </svg>
+              <span>{{ form_errors(registrationForm.username) }}</span>
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Password Field -->
+        <div>
+          {{ form_label(registrationForm.plainPassword, 'Password', {
+            'label_attr': {
+              'class': 'block text-sm font-semibold mb-2',
+              'style': 'color: #1e293b !important; font-weight: 600;'
+            }
+          }) }}
+          <div class="relative">
+            <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 pointer-events-none" style="color: #64748b;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+            </svg>
+            {{ form_widget(registrationForm.plainPassword, {
+              'attr': {
+                'class': 'block w-full pl-10 pr-4 py-3 text-base border-1.5 rounded-lg transition-all duration-200 bg-white placeholder-gray-400',
+                'style': 'border-color: #cbd5e1 !important; color: #0f172a !important; font-weight: 500; background: #ffffff !important;',
+                'placeholder': 'Create a secure password'
+              }
+            }) }}
+          </div>
+          {% if form_errors(registrationForm.plainPassword) %}
+            <div class="mt-2 flex items-start text-sm" style="color: #dc2626 !important;">
+              <svg class="w-4 h-4 mr-1.5 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+              </svg>
+              <span>{{ form_errors(registrationForm.plainPassword) }}</span>
+            </div>
+          {% else %}
+            <p class="mt-2 text-sm flex items-center" style="color: #64748b !important;">
+              <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              Must be at least 6 characters long
+            </p>
+          {% endif %}
+        </div>
+
+        <!-- Terms Agreement -->
+        <div class="flex items-start bg-white p-4 rounded-lg border-2" style="border-color: #e2e8f0 !important; background: #ffffff !important;">
+          {{ form_widget(registrationForm.agreeTerms, {
+            'attr': {
+              'class': 'h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded mt-1',
+              'style': 'accent-color: #7a0000 !important;'
+            }
+          }) }}
+          <div class="ml-3">
+            {{ form_label(registrationForm.agreeTerms, null, {
+              'label_attr': {
+                'class': 'text-sm font-medium cursor-pointer',
+                'style': 'color: #0f172a !important; font-weight: 600;'
+              }
+            }) }}
+            {% if form_errors(registrationForm.agreeTerms) %}
+              <div class="mt-1 text-sm" style="color: #dc2626 !important; font-weight: 500;">
+                {{ form_errors(registrationForm.agreeTerms) }}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="pt-2">
+          <button 
+            type="submit" 
+            class="w-full btn-primary py-3.5 px-6 rounded-lg font-semibold text-base shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 flex items-center justify-center group"
+          >
+            <span>Create Account</span>
+            <svg class="ml-2 w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Divider -->
+        <div class="relative py-4">
+          <div class="absolute inset-0 flex items-center">
+            <div class="w-full border-t border-gray-300"></div>
+          </div>
+          <span class="relative px-3 text-sm font-medium bg-white" style="color: #475569 !important;">
+            Already have an account?
+          </span>
+        </div>
+
+        <!-- Login Link -->
+        <a 
+          href="{{ path('app_login') }}" 
+          class="inline-flex items-center justify-center w-full py-3 px-6 border-1.5 rounded-lg font-semibold hover:bg-gray-50 transition-all duration-200 group"
+          style="border-color: #cbd5e1 !important; color: #1e293b !important; font-weight: 600;"
+        >
+          <svg class="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+          </svg>
+          <span>Sign In</span>
+        </a>
+
+      {{ form_end(registrationForm) }}
+    </div>
+
+    <!-- Footer Note -->
+    <footer class="mt-6 text-center">
+      <p class="text-sm" style="color: #475569 !important;">
+        By signing up, you agree to our 
+        <a href="#" class="hover:underline font-medium" style="color: #7a0000 !important; font-weight: 600;">Terms of Service</a> 
+        and 
+        <a href="#" class="hover:underline font-medium" style="color: #7a0000 !important; font-weight: 600;">Privacy Policy</a>
+      </p>
+    </footer>
+  </div>
+</div>
+
+<style>
+  @keyframes slide-in {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-slide-in {
+    animation: slide-in 0.3s ease-out;
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline: none;
+    border-color: #7a0000;
+    box-shadow: 0 0 0 3px rgba(122, 0, 0, 0.1);
+  }
+
+  input[type="checkbox"] {
+    accent-color: #7a0000;
+  }
+
+  input[type="checkbox"]:checked {
+    background-color: #7a0000;
+    border-color: #7a0000;
+  }
+</style>
+{% endblock %}

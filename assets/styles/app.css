@@ -1,253 +1,166 @@
-@font-face {
-    font-family: 'Maharlika';
-    src: url('../fonts/Maharlika-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-body {
-    background-color:rgb(90, 10, 10);
-    font-family: 'Maharlika', 'Old Standard';
-}
-/*  rgb(90, 10, 10) exact color */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #f8fafc;
-    padding: 0.5rem 1.5rem;
-    border-radius: 0.5rem;
-    background-color: rgb(90, 10, 10);
-}
+@import "tailwindcss";
+@source not "../../public";
 
-.navbar .flex-1 {
-    display: flex;
-    align-items: center;
-}
+    body {
+        background-image: url('Pattern.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
 
-.navbar .flex-none {
-    display: flex;
-    align-items: center;
-    gap: 1rem; /* space between cart and avatar */
-}
+    .navbar {
+        background-color: #7a0000;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        color: white;
+    }
 
-header,
-.header-center {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    width: 100%;
-    font-family: 'Maharlika', 'Old Standard';
-    color: #f3f4f6;
-    margin-top: 2.5rem;
-}
+    .navbar.transparent {
+        background-color: transparent !important;
+        color: transparent !important;
+    }
 
-.btn-ghost.text-xl {
-    font-weight: bold;
-    color: rgb(90, 10, 10);
-    font-size: 1.5rem;
-    letter-spacing: 1px;
-}
+    .navbar.transparent > * {
+        color: transparent !important;
+    }
 
-.avatar .w-10.rounded-full img {
-    width: 40px;
-    height: 40px;
-    object-fit: cover;
-    border-radius: 50%;  
-    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15); 
-    background-color: #e0f2fe; 
-    display: block;
-}
+    .navbar.transparent img,
+    .navbar.transparent svg,
+    .navbar.transparent .btn,
+    .navbar.transparent .indicator,
+    .navbar.transparent .badge,
+    .navbar.transparent a {
+        opacity: 0.3;
+        transition: opacity 0.3s ease;
+    }
+
+    .content-overlay {
+        padding-top: 100px;
+    }
+
+    .carousel {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+        width: 90%;
+        height: 600px; /* Adjust as needed */
+        margin: 0 auto;
+        border-radius: 12px;
+        background-color: #f9f9f9; /* soft background for contain images */
+    }
+
+    .carousel-item {
+        flex: 0 0 auto;
+        scroll-snap-align: center;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .carousel-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain; /* ensures image fits without cropping */
+        border-radius: 12px;
+        transition: transform 0.3s ease;
+        background-color: white; /* optional for cleaner borders */
+    }
+
+    .carousel-item:hover img {
+        transform: scale(1.02);
+    }
+
+    .carousel::-webkit-scrollbar {
+        display: none;
+    }
 
 
-.menu .badge {
-    background-color: #f59e42; 
-    color: #fff;
-    font-size: 0.75rem;
-    padding: 0.25em 0.5em;
-    border-radius: 0.75em;
-}
+    h1 {
+        text-align: center;
+        font-size: 36px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: black;
+    }
 
-.indicator svg {
-    width: 1.75rem;
-    height: 1.75rem;
-}
-
-.card {
-    border-radius: 0.75rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    background-color: #fff;
-    border: 1px solid #e5e7eb;
-}
-
-.card-body {
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.card-body .text-lg {
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: rgb(90, 10, 10);
-}
-
-.card-body .text-info {
-    color: rgb(124, 25, 25);
-    font-size: 0.95rem;
-}
-
-.card-actions {
-    margin-top: 0.5rem;
-}
-
-.btn-primary.btn-block {
-    width: 100%;
-    background-color:  rgb(90, 10, 10);
-    color: #fff;
-    border: none;
-    font-weight: 600;
-    border-radius: 0.375rem;
-    padding: 0.5rem 0;
-    transition: background 0.2s;
-}
-
-.btn-primary.btn-block:hover {
-    background-color: #2563eb;
-}
-
-/* Avatar ghost circle */
-.btn-circle.avatar {
-    padding: 0;
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    transition: box-shadow 0.2s;
-}
-
-.btn-circle.avatar:focus,
-.btn-circle.avatar:hover {
-    box-shadow: 0 0 0 2px #3b82f6;
-}
-
-.avatar .w-10.rounded-full img {
-    width: 40px;
-    height: 40px;
-    object-fit: cover;
-    border-radius: 50%;
-    background-color: #e0f2fe;
-    display: block;
-}
-
-/* Dropdown menu */
-.menu.menu-sm.dropdown-content {
-    border-radius: 0.75rem;
-    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.10);
-    background-color: #fff;
-    min-width: 200px;
-    padding: 0.75rem 0.5rem;
-    z-index: 10;
-    list-style: none;
-    padding-left: 0;
-}
-
-.menu.menu-sm.dropdown-content li a {
-    padding: 0.5rem 1rem;
-    color:  rgb(90, 10, 10);
-    font-size: 1rem;
-    border-radius: 0.5rem;
-    transition: background 0.2s, color 0.2s;
-}
-
-.menu.menu-sm.dropdown-content li a:hover {
-    background-color: #e0f2fe;
-    color: #3b82f6;
-}
-
-.menu .badge {
-    background-color: #f59e42;
-    color: #fff;
-    font-size: 0.75rem;
-    padding: 0.25em 0.5em;
-    border-radius: 0.75em;
-    margin-left: 0.5em;
-}
-
-.dropdown {
-    position: relative;
-}
-
-.dropdown-content,
-.menu.menu-sm.dropdown-content {
-    position: absolute;
-    top: 100%; /* Position below the trigger */
-    right: 0;
-    display: none;
-    min-width: 200px;
-    z-index: 100;
-    background: #fff;
-    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.10);
-    border-radius: 0.75rem;
-    padding: 0.75rem 0.5rem;
-}
-
-.dropdown-content.show,
-.menu.menu-sm.dropdown-content.show {
-    display: block;
-}
-
-/* Carousel Base Styles */
-.carousel {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-}
-
-.carousel-item {
-    flex: 0 0 auto;
-    scroll-snap-align: center;
-}
-
-.carousel-center {
-    justify-content: center;
-}
-
-/* Hide scrollbar but keep functionality */
-.carousel::-webkit-scrollbar {
-    display: none;
-}
-
-.carousel {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-
-/* Optional: Add some hover effects */
-.carousel-item img {
+    footer {
+        margin-top: 50px;
+        padding: 20px 0;
+        background-color: #7a0000;
+        color: white;
+        text-align: center;
+    }
+    footer a {
+        color: white;
+        text-decoration: none;
+    }
+    footer a:hover {
+        text-decoration: underline;
+    }
+    footer img {
+    height: 80px;
+    width: auto;
+    filter: brightness(0) invert(1); /* makes logo white if it's dark */
+    margin-bottom: 8px;
     transition: transform 0.3s ease;
+    }
+
+    footer img:hover {
+        transform: scale(1.05);
+    }
+/* Sidebar collapsed state */
+.sidebar.collapsed {
+    width: 70px;
+    transition: width 0.3s ease;
 }
 
-.carousel-item:hover img {
-    transform: scale(1.05);
+.sidebar.collapsed h2 {
+    font-size: 1.2rem;
 }
 
-/* Make carousel full-width and images large */
-.carousel {
-    width: 100%;
-    height: 600px; /* Made taller */
+.sidebar.collapsed a {
+    text-align: center;
+    padding: 12px 0;
 }
 
-.carousel-item {
-    width: 100%;
-    height: 100%;
+.sidebar.collapsed a::after {
+    content: "";
 }
 
-.carousel-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+/* Adjust navbar and main content */
+.navbar.collapsed {
+    left: 70px;
+    transition: left 0.3s ease;
 }
+
+.main-content.collapsed {
+    margin-left: 70px;
+    transition: margin-left 0.3s ease;
+}
+
+/* Toggle button styling */
+.toggle-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #7a0000;
+    margin-right: 1rem;
+    transition: transform 0.3s;
+}
+
+.toggle-btn:hover {
+    transform: scale(1.1);
+}
+/* Sidebar expanded state */

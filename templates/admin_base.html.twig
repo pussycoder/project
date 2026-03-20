@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SKADOOSH Admin Dashboard{% endblock %}</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- DataTables JS -->
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+    
+    <!-- Google Fonts - Inter (similar to TailAdmin) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Modern Typography - Inter Font (TailAdmin Style) */
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            background-attachment: fixed;
+            margin: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #1e293b !important;
+            font-weight: 400;
+        }
+
+        /* Typography - Clear and Visible */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700 !important;
+            color: #0f172a !important;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        h1 { font-size: 2rem; font-weight: 800; }
+        h2 { font-size: 1.75rem; font-weight: 700; }
+        h3 { font-size: 1.5rem; font-weight: 700; }
+        h4 { font-size: 1.25rem; font-weight: 600; }
+        h5 { font-size: 1.125rem; font-weight: 600; }
+        h6 { font-size: 1rem; font-weight: 600; }
+
+        p, span, div, label, a, li {
+            color: #334155 !important;
+            font-weight: 400;
+        }
+
+        /* White/light backgrounds - dark text */
+        .bg-white, .bg-gray-50, .bg-gray-100 {
+            color: #334155 !important;
+        }
+
+        .bg-white *, .bg-gray-50 *, .bg-gray-100 * {
+            color: #1e293b !important;
+        }
+
+        /* Dark backgrounds - light text - Enhanced Visibility */
+        .bg-slate-800, .bg-slate-700, .bg-slate-900, .dark,
+        [style*="background-color: rgba(30, 41, 59"],
+        [style*="background: #1e293b"],
+        [style*="background: #0f172a"] {
+            color: #ffffff !important;
+        }
+
+        .bg-slate-800 *, .bg-slate-700 *, .bg-slate-900 *, .dark *,
+        [style*="background-color: rgba(30, 41, 59"] *,
+        [style*="background: #1e293b"] * {
+            color: #ffffff !important;
+        }
+
+        /* Gradient backgrounds with dark text */
+        [class*="bg-gradient-to-r"][class*="from-[#7a0000]"] *,
+        [class*="bg-gradient-to-r"][class*="from-red-600"] *,
+        [class*="bg-gradient-to-r"][class*="from-red-700"] * {
+            color: #ffffff !important;
+        }
+
+        /* Override light text colors on white backgrounds */
+        .bg-white .text-gray-400, .bg-white .text-gray-500,
+        .bg-gray-50 .text-gray-400, .bg-gray-50 .text-gray-500 {
+            color: #6b7280 !important;
+        }
+
+        .bg-white .text-gray-600, .bg-gray-50 .text-gray-600 {
+            color: #4b5563 !important;
+        }
+
+        .bg-white .text-gray-700, .bg-gray-50 .text-gray-700 {
+            color: #374151 !important;
+        }
+
+        .bg-white .text-gray-900, .bg-gray-50 .text-gray-900 {
+            color: #a0a6b4ff !important;
+        }
+
+        /* Override dark text colors on dark backgrounds */
+        .bg-slate-800 .text-gray-900, .bg-slate-700 .text-gray-900,
+        .bg-slate-800 .text-gray-800, .bg-slate-700 .text-gray-800 {
+            color: #f8fafc !important;
+        }
+
+        .bg-slate-800 .text-gray-700, .bg-slate-700 .text-gray-700 {
+            color: #e2e8f0 !important;
+        }
+
+        .bg-slate-800 .text-gray-600, .bg-slate-700 .text-gray-600 {
+            color: #cbd5e1 !important;
+        }
+
+        /* Ensure main content area has good visibility */
+        main {
+            color: #111827 !important;
+        }
+
+        main * {
+            color: inherit;
+        }
+
+        /* Custom DataTables Styling */
+        .dataTables_wrapper {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        /* Force visibility for all text in DataTables flex containers - AGGRESSIVE */
+        .dataTables_wrapper .flex,
+        .dataTables_wrapper .flex *,
+        .dataTables_wrapper div[class*="flex"],
+        .dataTables_wrapper div[class*="flex"] *,
+        .dataTables_wrapper [class*="flex-col"],
+        .dataTables_wrapper [class*="flex-col"] *,
+        .dataTables_wrapper [class*="flex-row"],
+        .dataTables_wrapper [class*="flex-row"] * {
+            color: #1e293b !important;
+        }
+
+        /* Force ALL DataTables text to be visible */
+        .dataTables_wrapper,
+        .dataTables_wrapper * {
+            color: #1e293b !important;
+        }
+
+        /* Override for specific elements */
+        .dataTables_wrapper label,
+        .dataTables_wrapper span,
+        .dataTables_wrapper div:not(.dataTables_paginate):not(.paginate_button) {
+            color: #1e293b !important;
+        }
+
+        .dataTables_wrapper .dataTables_length,
+        .dataTables_wrapper .dataTables_filter,
+        .dataTables_wrapper .dataTables_info,
+        .dataTables_wrapper .dataTables_paginate {
+            padding: 1rem;
+            color: #da7e56ff !important;
+        }
+
+        /* Force visibility for DataTables labels - "Show entries" and "Search:" */
+        .dataTables_wrapper .dataTables_length label,
+        .dataTables_wrapper .dataTables_filter label,
+        .dataTables_wrapper label {
+            color: #da7e56ff !important;
+            font-weight: 600 !important;
+        }
+
+        /* Force visibility for all text in DataTables sections */
+        .dataTables_wrapper .dataTables_length,
+        .dataTables_wrapper .dataTables_length *,
+        .dataTables_wrapper .dataTables_filter,
+        .dataTables_wrapper .dataTables_filter *,
+        .dataTables_wrapper .dataTables_info,
+        .dataTables_wrapper .dataTables_info *,
+        .dataTables_wrapper .dataTables_paginate,
+        .dataTables_wrapper .dataTables_paginate * {
+            color: #334155 !important;
+        }
+
+        /* Specifically target the "Show X entries" text - AGGRESSIVE */
+        .dataTables_wrapper .dataTables_length,
+        .dataTables_wrapper .dataTables_length *,
+        .dataTables_wrapper .dataTables_length label,
+        .dataTables_wrapper .dataTables_length span,
+        .dataTables_wrapper .dataTables_length div,
+        .dataTables_wrapper .dataTables_length p,
+        .dataTables_wrapper .dataTables_length label *,
+        .dataTables_wrapper .dataTables_length label span,
+        .dataTables_wrapper .dataTables_length label div,
+        .dataTables_wrapper .dataTables_length label p,
+        .dataTables_wrapper .dataTables_length > *,
+        .dataTables_wrapper .dataTables_length > label,
+        .dataTables_wrapper .dataTables_length > label > *,
+        .dataTables_wrapper .dataTables_length > label > span,
+        .dataTables_wrapper .dataTables_length > label > select,
+        .dataTables_wrapper .dataTables_length label:first-child,
+        .dataTables_wrapper .dataTables_length label:first-child * {
+            color: #1e293b !important;
+            font-weight: 600 !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        /* Force visibility for "Search:" label */
+        .dataTables_wrapper .dataTables_filter,
+        .dataTables_wrapper .dataTables_filter *,
+        .dataTables_wrapper .dataTables_filter label,
+        .dataTables_wrapper .dataTables_filter span {
+            color: #da7e56ff !important;
+            font-weight: 600 !important;
+        }
+
+        /* Ensure select dropdown text is visible */
+        .dataTables_wrapper .dataTables_length select,
+        .dataTables_wrapper .dataTables_length select option {
+            color: #0f172a !important;
+            background-color: #ffffff !important;
+            font-weight: 500 !important;
+        }
+
+        .dataTables_wrapper .dataTables_filter input {
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            padding: 0.5rem 0.75rem;
+            background: #f9fafb;
+        }
+
+        .dataTables_wrapper .dataTables_filter input:focus {
+            outline: none;
+            border-color: #7a0000;
+            box-shadow: 0 0 0 3px rgba(122, 0, 0, 0.1);
+        }
+
+        .dataTables_wrapper table.dataTable thead th {
+            background: linear-gradient(135deg, #7a0000 0%, #8a0000 100%);
+            color: #ffffff !important;
+            font-weight: 600;
+            font-size: 0.875rem;
+            border: none;
+            padding: 1rem 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .dataTables_wrapper table.dataTable tbody td {
+            color: #334155 !important;
+            font-size: 0.875rem;
+            font-weight: 400;
+        }
+
+        .dataTables_wrapper table.dataTable tbody td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .dataTables_wrapper table.dataTable tbody tr:hover {
+            background-color: #f9fafb;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            border: 1.5px solid #cbd5e1 !important;
+            border-radius: 0.375rem;
+            margin: 0 0.125rem;
+            padding: 0.5rem 0.75rem;
+            background: #ffffff !important;
+            color: #7a0000 !important;
+            font-weight: 500 !important;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button a {
+            color: #7a0000 !important;
+            text-decoration: none !important;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background-color: #7a0000 !important;
+            color: #ffffff !important;
+            border-color: #7a0000 !important;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover a {
+            color: #ffffff !important;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+            background-color: #7a0000 !important;
+            color: #ffffff !important;
+            border-color: #7a0000 !important;
+            font-weight: 600 !important;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current a {
+            color: #ffffff !important;
+        }
+
+        /* Pagination Links - High Visibility */
+        .page-link, .paginate_button a, .dataTables_paginate a {
+            color: #7a0000 !important;
+            background-color: #ffffff !important;
+            border: 1.5px solid #cbd5e1 !important;
+            padding: 0.5rem 0.75rem !important;
+            border-radius: 0.375rem !important;
+            font-weight: 500 !important;
+            text-decoration: none !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .page-link:hover, .paginate_button a:hover, .dataTables_paginate a:hover {
+            color: #ffffff !important;
+            background-color: #7a0000 !important;
+            border-color: #7a0000 !important;
+        }
+
+        .page-link.active, .paginate_button.current a, .dataTables_paginate .current a {
+            color: #ffffff !important;
+            background-color: #7a0000 !important;
+            border-color: #7a0000 !important;
+            font-weight: 600 !important;
+        }
+
+        .page-link.disabled, .paginate_button.disabled a, .dataTables_paginate .disabled a {
+            color: #94a3b8 !important;
+            background-color: #f8fafc !important;
+            border-color: #e2e8f0 !important;
+            cursor: not-allowed !important;
+        }
+
+        /* Sidebar Styles - Modern TailAdmin Style */
+        .sidebar {
+            background: linear-gradient(180deg, #7a0000 0%, #6a0000 50%, #5a0000 100%);
+            box-shadow: 4px 0 25px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 280px;
+            z-index: 1000;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar img {
+            filter: brightness(1.1);
+            max-height: 50px;
+            width: auto;
+        }
+
+        /* Mobile overlay when sidebar is open */
+        @media (max-width: 768px) {
+            .sidebar-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 999;
+                display: none;
+            }
+
+            .sidebar-overlay.active {
+                display: block;
+            }
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .sidebar .nav-item {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 0.5rem;
+            margin: 0.25rem 0.75rem;
+            color: rgba(255, 255, 255, 0.95) !important;
+            font-weight: 500;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+        }
+
+        .sidebar .nav-item svg {
+            flex-shrink: 0;
+            width: 1.25rem;
+            height: 1.25rem;
+            margin-right: 0.75rem;
+        }
+
+        .sidebar .nav-item:hover {
+            background-color: rgba(255, 255, 255, 0.12);
+            transform: translateX(4px);
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar .nav-item.active {
+            background: rgba(255, 255, 255, 0.15);
+            border-left: 3px solid #ffffff;
+            color: #ffffff !important;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Sidebar collapse behavior - Fixed */
+        .sidebar.collapsed {
+            transform: translateX(-100%);
+        }
+
+        .main-content {
+            margin-left: 280px;
+            transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 100vh;
+            background: #f8fafc;
+            width: calc(100% - 280px);
+        }
+
+        .main-content.collapsed {
+            margin-left: 0;
+            width: 100%;
+        }
+
+        /* Mobile responsive - Enhanced */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 260px;
+            }
+            
+            .main-content {
+                margin-left: 260px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 280px;
+                z-index: 1000;
+            }
+            
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            /* Mobile-friendly top nav */
+            .top-nav {
+                padding: 1rem;
+            }
+
+            .top-nav h1 {
+                font-size: 1.25rem;
+            }
+
+            /* Hide search on mobile */
+            .top-nav .relative.hidden {
+                display: none !important;
+            }
+
+            /* Mobile-friendly cards */
+            .card {
+                margin: 0.5rem;
+                padding: 1rem;
+            }
+
+            /* Stack filters on mobile */
+            .grid.grid-cols-1.md\\:grid-cols-4 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            /* Extra small screens */
+            .sidebar {
+                width: 100%;
+            }
+
+            .top-nav {
+                flex-wrap: wrap;
+            }
+
+            .top-nav > div {
+                width: 100%;
+                margin-top: 0.5rem;
+            }
+        }
+
+        /* Modern Card Styles - TailAdmin Style */
+        .card {
+            background: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.1), 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+            transform: translateY(-1px);
+            border-color: #cbd5e1;
+        }
+
+        /* Force ALL text in cards to be visible - High Contrast - AGGRESSIVE */
+        .card, .card * {
+            color: #d13d23ff !important;
+        }
+
+        /* Override ANY text color that might be invisible */
+        .card *:not(button):not(a.btn-primary):not(.btn-primary):not(input):not(select):not(textarea) {
+            color: #c6763dff !important;
+        }
+
+        /* Force visibility for all text in flex containers */
+        .flex, .flex *, 
+        div[class*="flex"], div[class*="flex"] *,
+        [class*="flex-col"], [class*="flex-col"] *,
+        [class*="flex-row"], [class*="flex-row"] * {
+            color: inherit;
+        }
+
+        /* Ensure flex containers with white backgrounds have dark text */
+        .flex.bg-white, .flex.bg-white *,
+        div[class*="flex"].bg-white, div[class*="flex"].bg-white *,
+        [class*="flex-col"].bg-white, [class*="flex-col"].bg-white * {
+            color: #334155 !important;
+        }
+
+        /* DataTables flex containers - ensure visibility */
+        .dataTables_wrapper .flex,
+        .dataTables_wrapper .flex *,
+        .dataTables_wrapper [class*="flex"],
+        .dataTables_wrapper [class*="flex"] * {
+            color: #334155 !important;
+        }
+
+        .dataTables_wrapper .flex label,
+        .dataTables_wrapper [class*="flex"] label {
+            color: #1e293b !important;
+            font-weight: 600 !important;
+        }
+
+        /* Headings in cards */
+        .card h1, .card h2, .card h3, .card h4, .card h5, .card h6 {
+            color: #0f172a !important;
+            font-weight: 700 !important;
+        }
+
+        /* Paragraphs and body text in cards */
+        .card p, .card span, .card div, .card label, .card td, .card th, .card li {
+            color: #334155 !important;
+            font-weight: 400;
+        }
+
+        /* Bold and semibold text in cards */
+        .card strong, .card b, .card .font-bold, .card .font-semibold {
+            color: #0f172a !important;
+            font-weight: 600 !important;
+        }
+
+        /* Links in cards */
+        .card a {
+            color: #7a0000 !important;
+            font-weight: 500;
+        }
+
+        .card a:hover {
+            color: #6a0000 !important;
+            text-decoration: underline;
+        }
+
+        /* Gray text variants in cards - make them visible */
+        .card .text-gray-400, .card .text-gray-500, .card .text-gray-600,
+        .card .text-gray-700, .card .text-gray-800, .card .text-gray-900 {
+            color: #64748b !important;
+        }
+
+        /* Small text in cards */
+        .card .text-xs, .card .text-sm {
+            color: #64748b !important;
+        }
+
+        /* Override dark mode text colors in cards */
+        .card .dark\:text-white, .card .dark\:text-gray-100, .card .dark\:text-gray-200,
+        .card .dark\:text-gray-300, .card .dark\:text-gray-400 {
+            color: #334155 !important;
+        }
+
+        /* Buttons in cards should keep their colors */
+        .card .btn-primary, .card button.btn-primary, .card a.btn-primary {
+            color: #ffffff !important;
+        }
+
+        .card .btn-secondary {
+            color: #374151 !important;
+        }
+
+        /* Stats Card Enhancement - TailAdmin Style */
+        .stats-card {
+            background: #ffffff;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+            border: 1px solid #e2e8f0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #7a0000 0%, #9a0000 100%);
+        }
+
+        .stats-card:hover {
+            box-shadow: 0 4px 12px 0 rgba(122, 0, 0, 0.15);
+            transform: translateY(-2px);
+            border-color: #cbd5e1;
+        }
+
+        .stats-card p {
+            color: #64748b !important;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .stats-card .text-3xl, .stats-card .text-2xl {
+            color: #d97a48ff !important;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        /* Top Navigation Bar - Modern TailAdmin Style */
+        .top-nav {
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .top-nav h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0f172a !important;
+            letter-spacing: -0.02em;
+        }
+
+        .top-nav p {
+            font-size: 0.875rem;
+            color: #64748b !important;
+            font-weight: 400;
+        }
+
+        /* Additional Visibility Improvements */
+        a:not(.btn-primary):not(.btn-secondary) {
+            color: #7a0000 !important;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        a:not(.btn-primary):not(.btn-secondary):hover {
+            color: #6a0000 !important;
+            text-decoration: underline;
+        }
+
+        /* Badge Styles */
+        .badge, .status-badge, span[class*="badge"] {
+            font-weight: 600;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            letter-spacing: 0.05em;
+        }
+
+        /* Icon Visibility */
+        svg {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        /* Status Badges */
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .status-pending {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-processing {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+
+        .status-completed {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-cancelled {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* Ensure all dropdowns have visible text */
+        select, select option {
+            color: #111827 !important;
+            background-color: #ffffff !important;
+        }
+
+        select:focus, select:active {
+            color: #111827 !important;
+            background-color: #ffffff !important;
+        }
+
+        /* DataTables dropdown styling */
+        .dataTables_length select,
+        .dataTables_filter input,
+        .dataTables_wrapper select,
+        .dataTables_wrapper input {
+            color: #111827 !important;
+            background-color: #ffffff !important;
+        }
+
+        /* Override any light text on dropdowns */
+        select.text-gray-400,
+        select.text-gray-500,
+        select.text-gray-600 {
+            color: #111827 !important;
+        }
+
+        /* Modern Button Styles - TailAdmin Style */
+        .btn-primary, button.btn-primary, a.btn-primary {
+            background: linear-gradient(135deg, #7a0000 0%, #9a0000 100%);
+            color: #ffffff !important;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            letter-spacing: 0.01em;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 1px 3px 0 rgba(122, 0, 0, 0.2);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover, button.btn-primary:hover, a.btn-primary:hover {
+            background: linear-gradient(135deg, #6a0000 0%, #8a0000 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(122, 0, 0, 0.35);
+            color: #ffffff !important;
+        }
+
+        .btn-primary:active, button.btn-primary:active, a.btn-primary:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 3px 0 rgba(122, 0, 0, 0.2);
+        }
+
+        .btn-secondary, button.btn-secondary, a.btn-secondary {
+            background: #ffffff;
+            color: #475569 !important;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            border: 1.5px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .btn-secondary:hover, button.btn-secondary:hover, a.btn-secondary:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+            color: #334155 !important;
+        }
+
+        /* Dark mode support */
+        .dark body {
+            background-color: #0f172a;
+        }
+
+        /* Override dark mode for cards - keep them white with visible text */
+        .dark .card {
+            background-color: #ffffff !important;
+            border-color: #e2e8f0 !important;
+        }
+
+        .dark .card, .dark .card * {
+            color: #0f172a !important;
+        }
+
+        .dark .card h1, .dark .card h2, .dark .card h3, 
+        .dark .card h4, .dark .card h5, .dark .card h6 {
+            color: #0f172a !important;
+        }
+
+        .dark .card p, .dark .card span, .dark .card div {
+            color: #334155 !important;
+        }
+
+        .dark .dataTables_wrapper {
+            background-color: #1e293b;
+            color: #e2e8f0;
+        }
+
+        /* Smooth page transitions */
+        main {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Enhanced button styles */
+        button, .btn {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        button:active, .btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Better focus states */
+        *:focus-visible {
+            outline: 2px solid #7a0000;
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+
+        /* Loading states */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        /* Enhanced shadows */
+        .shadow-elevated {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Modern Button Styles */
+        .btn-modern {
+            padding: 0.625rem 1.25rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-modern:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(122, 0, 0, 0.25);
+        }
+
+        /* Form Input Enhancement - TailAdmin Style - High Visibility */
+        input[type="text"], input[type="email"], input[type="password"], 
+        input[type="number"], input[type="file"], textarea, select, .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1.5px solid #cbd5e1 !important;
+            border-radius: 0.5rem;
+            transition: all 0.2s ease;
+            background: #ffffff !important;
+            color: #0f172a !important;
+            font-size: 0.875rem;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif !important;
+        }
+
+        input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus,
+        input[type="number"]:focus, input[type="file"]:focus, textarea:focus, select:focus, .form-input:focus {
+            outline: none !important;
+            border-color: #7a0000 !important;
+            box-shadow: 0 0 0 3px rgba(122, 0, 0, 0.15) !important;
+            background: #ffffff !important;
+            color: #0f172a !important;
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: #94a3b8 !important;
+            font-weight: 400;
+            opacity: 1 !important;
+        }
+
+        label {
+            color: #1e293b !important;
+            font-weight: 600 !important;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        /* Select dropdown visibility - High Contrast */
+        select, .form-select, form select {
+            color: #0f172a !important;
+            font-weight: 500 !important;
+            background-color: #ffffff !important;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%230f172a' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+            appearance: none;
+            border: 1.5px solid #cbd5e1 !important;
+        }
+
+        select:focus, .form-select:focus, form select:focus {
+            color: #0f172a !important;
+            background-color: #ffffff !important;
+            border-color: #7a0000 !important;
+        }
+
+        select option, .form-select option, form select option {
+            color: #0f172a !important;
+            font-weight: 500 !important;
+            background-color: #ffffff !important;
+            padding: 0.5rem;
+        }
+
+        select option:checked, .form-select option:checked, form select option:checked {
+            background-color: #7a0000 !important;
+            color: #ffffff !important;
+        }
+
+        /* Multiple select styling */
+        select[multiple] {
+            min-height: 120px;
+            padding: 0.75rem;
+        }
+
+        select[multiple] option {
+            padding: 0.5rem;
+            margin: 0.25rem 0;
+        }
+
+        select[multiple] option:checked {
+            background-color: #7a0000 !important;
+            color: #ffffff !important;
+        }
+
+        /* Table Enhancement - TailAdmin Style */
+        .table-modern, table {
+            background: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        .table-modern thead, table thead {
+            background: linear-gradient(135deg, #7a0000 0%, #8a0000 100%);
+        }
+
+        .table-modern thead th, table thead th {
+            color: #ffffff !important;
+            font-weight: 600;
+            font-size: 0.875rem;
+            padding: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .table-modern tbody tr, table tbody tr {
+            transition: background-color 0.15s ease;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .table-modern tbody tr:hover, table tbody tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .table-modern tbody td, table tbody td {
+            color: #334155 !important;
+            font-size: 0.875rem;
+            padding: 1rem;
+            font-weight: 400;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-slate-900">
+    <!-- Mobile Overlay -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+    
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <!-- Logo Section - Enhanced Visibility -->
+        <div class="p-6 border-b border-red-800/30">
+            <div class="flex items-center justify-between">
+                <a href="{{ path('app_admin_dashboard') }}" class="flex items-center space-x-3">
+                    <img src="{{ asset('Logo.png') }}" alt="SKADOOSH Logo" class="h-12 w-auto transition-transform hover:scale-105" style="filter: brightness(1.2) drop-shadow(0 2px 4px rgba(0,0,0,0.2));">
+                </a>
+            </div>
+        </div>
+        
+        <!-- User Info Section - Enhanced Visibility -->
+        {% if app.user %}
+        <div class="px-6 py-4 border-b border-red-800/30">
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 bg-white/25 rounded-full flex items-center justify-center shadow-lg">
+                    <span class="text-white font-bold text-base" style="font-weight: 700;">{{ app.user.userIdentifier|slice(0, 1)|upper }}</span>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-white font-semibold text-sm truncate" style="font-weight: 600; color: #ffffff !important;">{{ app.user.fullName ?: app.user.userIdentifier }}</p>
+                    <p class="text-white/90 text-xs truncate" style="color: rgba(255, 255, 255, 0.9) !important; font-weight: 400;">
+                        {% if 'ROLE_ADMIN' in app.user.roles %}
+                            Administrator
+                        {% elseif 'ROLE_STAFF' in app.user.roles %}
+                            Staff Member
+                        {% else %}
+                            User
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- Navigation - Role-Based Menu -->
+        <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+            {% if 'ROLE_ADMIN' in app.user.roles %}
+                <!-- Admin Menu Items -->
+                <a href="{{ path('app_admin_dashboard') }}" class="nav-item flex items-center space-x-3 px-4 py-3 rounded-lg {% if app.request.get('_route') == 'app_admin_dashboard' %}active{% endif %}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"/>
+                    </svg>
+                    <span>Dashboard</span>
+                </a>
+            {% endif %}
+            
+            <!-- Common Menu Items (Both Admin & Staff) -->
+            <a href="{{ path('app_products_index') }}" class="nav-item flex items-center space-x-3 px-4 py-3 rounded-lg {% if app.request.get('_route') starts with 'app_products' %}active{% endif %}">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                </svg>
+                <span>Products</span>
+            </a>
+            
+            <a href="{{ path('app_orders_index') }}" class="nav-item flex items-center space-x-3 px-4 py-3 rounded-lg {% if app.request.get('_route') starts with 'app_orders' %}active{% endif %}">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                </svg>
+                <span>Orders</span>
+            </a>
+            
+            {% if 'ROLE_ADMIN' in app.user.roles %}
+                <!-- Admin-Only Menu Items -->
+                <a href="{{ path('app_user_index') }}" class="nav-item flex items-center space-x-3 px-4 py-3 rounded-lg {% if app.request.get('_route') starts with 'app_user' %}active{% endif %}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
+                    </svg>
+                    <span>Admin Users</span>
+                </a>
+
+                <a href="{{ path('app_activity_log_index') }}" class="nav-item flex items-center space-x-3 px-4 py-3 rounded-lg {% if app.request.get('_route') starts with 'app_activity_log' %}active{% endif %}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    <span>Activity Logs</span>
+                </a>
+            {% endif %}
+            
+            <!-- Common Menu Item (Both Admin & Staff) -->
+            <a href="{{ path('app_profile_show') }}" class="nav-item flex items-center space-x-3 px-4 py-3 rounded-lg {% if app.request.get('_route') starts with 'app_profile' %}active{% endif %}">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                </svg>
+                <span>My Profile</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content ml-64 transition-all duration-300" id="main-content">
+        <!-- Top Navigation -->
+        <nav class="top-nav sticky top-0 z-40">
+            <div class="px-4 sm:px-6 py-3 sm:py-4">
+                <div class="flex items-center justify-between">
+                    <!-- Left Section -->
+                    <div class="flex items-center space-x-3 sm:space-x-4 flex-1 min-w-0">
+                        <button id="sidebar-toggle" class="p-2 sm:p-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700 transition-all duration-200 hover:scale-105 active:scale-95 flex-shrink-0" style="color: #111827 !important;" aria-label="Toggle sidebar">
+                            <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                            </svg>
+                        </button>
+                        <div class="min-w-0 flex-1">
+                            <h1 class="text-xl sm:text-2xl font-bold truncate" style="color: #111827 !important;">{% block page_title %}Dashboard{% endblock %}</h1>
+                            <p class="text-xs sm:text-sm text-gray-600 mt-0.5 hidden sm:block">{% block page_subtitle %}{% endblock %}</p>
+                        </div>
+                    </div>
+
+                    <!-- Right Section -->
+                    <div class="flex items-center space-x-2 sm:space-x-4 flex-shrink-0">
+                        <!-- Search - Hidden on mobile -->
+                        <div class="relative hidden lg:block">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                </svg>
+                            </div>
+                            <input id="global-search" type="text" placeholder="Search..." class="block w-48 xl:w-64 pl-10 pr-3 py-2.5 border-1.5 border-gray-300 rounded-lg bg-white text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-[#7a0000] focus:border-[#7a0000] transition-all text-sm font-normal" style="color: #1e293b !important; font-family: 'Inter', sans-serif !important;">
+                        </div>
+
+                        {# <!-- Theme Toggle -->
+                        <button id="theme-toggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors">
+                            <svg id="theme-toggle-dark-icon" class="w-5 h-5 text-gray-600 dark:text-gray-400 hidden" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+                            </svg>
+                            <svg id="theme-toggle-light-icon" class="w-5 h-5 text-gray-600 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"/>
+                            </svg>
+                        </button> #}
+
+                        <!-- Profile Dropdown -->
+                        <div class="relative">
+                            <button id="profile-menu-toggle" class="flex items-center space-x-2 sm:space-x-3 p-1.5 sm:p-2 rounded-xl hover:bg-gray-100 transition-all duration-200 hover:scale-105 active:scale-95">
+                                <div class="w-10 h-10 bg-gradient-to-br from-[#7a0000] to-[#9a0000] rounded-full flex items-center justify-center shadow-lg flex-shrink-0">
+                                    <span class="text-sm font-bold text-white" style="color: #ffffff !important; font-weight: 700;">
+                                        {% if app.user %}
+                                            {{ app.user.userIdentifier|slice(0, 1)|upper }}
+                                        {% else %}
+                                            A
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                <div class="hidden lg:block text-left">
+                                    <p class="text-sm font-semibold truncate max-w-[120px]" style="color: #0f172a !important; font-weight: 600;">
+                                        {% if app.user %}
+                                            {{ app.user.fullName ?: app.user.userIdentifier }}
+                                        {% else %}
+                                            Admin
+                                        {% endif %}
+                                    </p>
+                                    <p class="text-xs truncate" style="color: #64748b !important; font-weight: 400;">View Profile</p>
+                                </div>
+                                <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 hidden lg:block flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </button>
+                            <div id="profile-dropdown-menu" class="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl py-2 z-50 hidden border border-gray-200 overflow-hidden">
+                                <div class="px-4 py-3 border-b border-gray-200">
+                                    <p class="text-sm font-semibold" style="color: #0f172a !important; font-weight: 600;">
+                                        {% if app.user %}
+                                            {{ app.user.fullName ?: app.user.userIdentifier }}
+                                        {% else %}
+                                            Admin User
+                                        {% endif %}
+                                    </p>
+                                    <p class="text-xs mt-1" style="color: #64748b !important; font-weight: 400;">
+                                        {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+                                            Administrator
+                                        {% elseif app.user and 'ROLE_STAFF' in app.user.roles %}
+                                            Staff Member
+                                        {% else %}
+                                            User
+                                        {% endif %}
+                                    </p>
+                                </div>
+                                <a href="{{ path('app_profile_show') }}" class="flex items-center px-4 py-2.5 text-sm font-medium hover:bg-gray-50 transition-colors" style="color: #334155 !important; font-weight: 500;">
+                                    <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: #64748b;">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                    </svg>
+                                    My Profile
+                                </a>
+                                <a href="{{ path('app_admin_dashboard') }}" class="flex items-center px-4 py-2.5 text-sm font-medium hover:bg-gray-50 transition-colors" style="color: #334155 !important; font-weight: 500;">
+                                    <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: #64748b;">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                                    </svg>
+                                    Dashboard
+                                </a>
+                                <a href="{{ path('app_logout') }}" class="flex items-center px-4 py-2.5 text-sm font-medium hover:bg-red-50 transition-colors" style="color: #7a0000 !important; font-weight: 500;">
+                                    <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                                    </svg>
+                                    Logout
+                                </a>
+                            </div>
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    const menuBtn = document.getElementById('profile-menu-toggle');
+                                    const menu = document.getElementById('profile-dropdown-menu');
+                                    let dropdownOpen = false;
+                                    if (menuBtn && menu) {
+                                        menuBtn.addEventListener('click', function (e) {
+                                            e.stopPropagation();
+                                            menu.classList.toggle('hidden');
+                                            dropdownOpen = !dropdownOpen;
+                                        });
+                                        document.addEventListener('click', function (event) {
+                                            if (
+                                                dropdownOpen &&
+                                                !menu.contains(event.target) &&
+                                                !menuBtn.contains(event.target)
+                                            ) {
+                                                menu.classList.add('hidden');
+                                                dropdownOpen = false;
+                                            }
+                                        });
+                                    }
+                                });
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Page Content -->
+        <main class="p-4 sm:p-6 min-h-screen" style="background: linear-gradient(to bottom, #f8fafc 0%, #f1f5f9 100%);">
+            <div class="max-w-7xl mx-auto">
+                <!-- Breadcrumbs - Enhanced -->
+                {% block breadcrumbs %}
+                <nav class="breadcrumbs mb-6" style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; color: #64748b; font-weight: 400;">
+                    <a href="{{ path('app_admin_dashboard') }}" class="text-[#7a0000] hover:text-[#6a0000] transition-colors font-medium" style="color: #7a0000 !important; text-decoration: none; font-weight: 500;">
+                        Dashboard
+                    </a>
+                    {% if block('breadcrumb_items') is defined %}
+                        <span style="color: #94a3b8;">/</span>
+                        <span style="color: #334155; font-weight: 500;">{{ block('breadcrumb_items') }}</span>
+                    {% endif %}
+                </nav>
+                {% endblock %}
+                
+                {% block body %}{% endblock %}
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Sidebar Toggle - Enhanced
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('main-content');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+
+        // Load sidebar state from localStorage
+        const isCollapsed = localStorage.getItem('sidebar-collapsed') === 'true';
+        if (isCollapsed) {
+            sidebar.classList.add('collapsed');
+            mainContent.classList.add('collapsed');
+        }
+
+        // Handle sidebar toggle
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isMobile = window.innerWidth <= 768;
+                
+                if (isMobile) {
+                    // Mobile: toggle sidebar and overlay
+                    sidebar.classList.toggle('mobile-open');
+                    if (sidebarOverlay) {
+                        sidebarOverlay.classList.toggle('active');
+                    }
+                } else {
+                    // Desktop: collapse/expand sidebar
+                    sidebar.classList.toggle('collapsed');
+                    mainContent.classList.toggle('collapsed');
+                    localStorage.setItem('sidebar-collapsed', sidebar.classList.contains('collapsed'));
+                }
+            });
+        }
+
+        // Close sidebar when clicking overlay (mobile)
+        if (sidebarOverlay) {
+            sidebarOverlay.addEventListener('click', () => {
+                sidebar.classList.remove('mobile-open');
+                sidebarOverlay.classList.remove('active');
+            });
+        }
+
+        // Close sidebar when clicking outside (mobile)
+        if (window.innerWidth <= 768) {
+            document.addEventListener('click', (e) => {
+                if (!sidebar.contains(e.target) && 
+                    !sidebarToggle.contains(e.target) && 
+                    sidebar.classList.contains('mobile-open')) {
+                    sidebar.classList.remove('mobile-open');
+                    if (sidebarOverlay) {
+                        sidebarOverlay.classList.remove('active');
+                    }
+                }
+            });
+        }
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                sidebar.classList.remove('mobile-open');
+                if (sidebarOverlay) {
+                    sidebarOverlay.classList.remove('active');
+                }
+            }
+        });
+        
+
+        // Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+        // Load theme from localStorage
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            themeToggleDarkIcon.classList.remove('hidden');
+            themeToggleLightIcon.classList.add('hidden');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            
+            if (document.documentElement.classList.contains('dark')) {
+                themeToggleDarkIcon.classList.remove('hidden');
+                themeToggleLightIcon.classList.add('hidden');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeToggleDarkIcon.classList.add('hidden');
+                themeToggleLightIcon.classList.remove('hidden');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // Initialize DataTables for any table with class 'datatable'
+        $(document).ready(function() {
+            $('.datatable').DataTable({
+                responsive: true,
+                pageLength: 10,
+                lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
+                language: {
+                    search: "Search:",
+                    lengthMenu: "Show _MENU_ entries",
+                    info: "Showing _START_ to _END_ of _TOTAL_ entries",
+                    paginate: {
+                        first: "First",
+                        last: "Last",
+                        next: "Next",
+                        previous: "Previous"
+                    }
+                },
+                dom: '<"flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4"<"flex items-center space-x-2"l><"flex items-center space-x-2"f>>rt<"flex flex-col sm:flex-row sm:items-center sm:justify-between mt-4"<"flex items-center"i><"flex items-center space-x-2"p>>',
+                initComplete: function() {
+                    // Add custom styling to DataTables elements with visible text
+                    $('.dataTables_length select').addClass('border border-gray-300 rounded-lg px-3 py-1').css({
+                        'color': '#111827 !important',
+                        'background-color': '#ffffff !important'
+                    });
+                    // Force visibility of "Show x entries" labels
+                    $('.dataTables_length label').css({
+                        'color': '#1e293b !important',
+                        'font-weight': '600 !important',
+                        'visibility': 'visible !important',
+                        'opacity': '1 !important'
+                    });
+                    $('.dataTables_length label *').css({
+                        'color': '#1e293b !important',
+                        'visibility': 'visible !important',
+                        'opacity': '1 !important'
+                    });
+                    $('.dataTables_length').css({
+                        'color': '#1e293b !important'
+                    });
+                    $('.dataTables_length *').css({
+                        'color': '#1e293b !important',
+                        'visibility': 'visible !important',
+                        'opacity': '1 !important'
+                    });
+                    $('.dataTables_filter input').addClass('border border-gray-300 rounded-lg px-3 py-1').css({
+                        'color': '#111827 !important',
+                        'background-color': '#ffffff !important'
+                    });
+                },
+                    drawCallback: function() {
+                        // Ensure dropdown colors are visible on every draw
+                        $('.dataTables_length select').css({
+                            'color': '#111827 !important',
+                            'background-color': '#ffffff !important'
+                        });
+                        // Force visibility of "Show x entries" labels
+                        $('.dataTables_length label').css({
+                            'color': '#1e293b !important',
+                            'font-weight': '600 !important',
+                            'visibility': 'visible !important',
+                            'opacity': '1 !important'
+                        });
+                        $('.dataTables_length label *').css({
+                            'color': '#1e293b !important',
+                            'visibility': 'visible !important',
+                            'opacity': '1 !important'
+                        });
+                        $('.dataTables_length').css({
+                            'color': '#1e293b !important'
+                        });
+                        $('.dataTables_length *').css({
+                            'color': '#1e293b !important',
+                            'visibility': 'visible !important',
+                            'opacity': '1 !important'
+                        });
+                        $('.dataTables_filter input').css({
+                            'color': '#111827 !important',
+                            'background-color': '#ffffff !important'
+                        });
+                        // Fix pagination links visibility
+                        $('.page-link, .paginate_button a').css({
+                            'color': '#7a0000 !important',
+                            'background-color': '#ffffff !important',
+                            'border-color': '#cbd5e1 !important',
+                            'font-weight': '500'
+                        });
+                        $('.page-link:hover, .paginate_button a:hover').css({
+                            'color': '#ffffff !important',
+                            'background-color': '#7a0000 !important',
+                            'border-color': '#7a0000 !important'
+                        });
+                        $('.page-link.active, .paginate_button.current a').css({
+                            'color': '#ffffff !important',
+                            'background-color': '#7a0000 !important',
+                            'border-color': '#7a0000 !important',
+                            'font-weight': '600'
+                        });
+                    }
+            });
+        });
+        // Forward global top search to page-level search inputs (debounced)
+        (function(){
+            const global = document.getElementById('global-search');
+            if (!global) return;
+            let t;
+            global.addEventListener('input', () => {
+                clearTimeout(t);
+                t = setTimeout(() => {
+                    const productSearch = document.getElementById('product-search');
+                    if (productSearch) {
+                        productSearch.value = global.value;
+                        productSearch.dispatchEvent(new Event('input', { bubbles: true }));
+                        return;
+                    }
+                    // fallback: document-level event for other pages
+                    document.dispatchEvent(new CustomEvent('global-search', { detail: global.value }));
+                }, 300);
+            });
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}User Details - SKADOOSH{% endblock %}
+{% block page_title %}User Details{% endblock %}
+{% block breadcrumb_items %}
+    <a href="{{ path('app_user_index') }}" style="color: #7a0000 !important; text-decoration: none; font-weight: 500;">Users</a>
+    <span style="color: #94a3b8;">/</span>
+    <span style="color: #334155; font-weight: 500;">Details</span>
+{% endblock %}
+
+{% block body %}
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-[#7a0000] via-[#8a0000] to-[#9a0000] rounded-xl p-6 sm:p-8 text-white mb-6 shadow-xl">
+        <h1 class="text-3xl sm:text-4xl font-bold mb-2" style="color: #ffffff !important; font-weight: 800; letter-spacing: -0.02em;">User Details</h1>
+        <p class="text-base sm:text-lg" style="color: rgba(255, 255, 255, 0.95) !important; font-weight: 400;">View user information and account details</p>
+    </div>
+
+    <!-- Details Card -->
+    <div class="card p-6 sm:p-8">
+        <div class="overflow-x-auto">
+            <table class="table-modern w-full">
+                <tbody>
+                    <tr>
+                        <th style="color: #0f172a !important; font-weight: 700; background: #f8fafc; padding: 1rem; border-bottom: 1px solid #e2e8f0;">ID</th>
+                        <td style="color: #334155 !important; font-weight: 500; padding: 1rem; border-bottom: 1px solid #e2e8f0;">{{ user.id }}</td>
+                    </tr>
+                    <tr>
+                        <th style="color: #0f172a !important; font-weight: 700; background: #f8fafc; padding: 1rem; border-bottom: 1px solid #e2e8f0;">Username</th>
+                        <td style="color: #334155 !important; font-weight: 500; padding: 1rem; border-bottom: 1px solid #e2e8f0;">{{ user.username }}</td>
+                    </tr>
+                    <tr>
+                        <th style="color: #0f172a !important; font-weight: 700; background: #f8fafc; padding: 1rem; border-bottom: 1px solid #e2e8f0;">Email</th>
+                        <td style="color: #334155 !important; font-weight: 500; padding: 1rem; border-bottom: 1px solid #e2e8f0;">{{ user.email ?: 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                        <th style="color: #0f172a !important; font-weight: 700; background: #f8fafc; padding: 1rem; border-bottom: 1px solid #e2e8f0;">Full Name</th>
+                        <td style="color: #334155 !important; font-weight: 500; padding: 1rem; border-bottom: 1px solid #e2e8f0;">{{ user.fullName ?: 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                        <th style="color: #0f172a !important; font-weight: 700; background: #f8fafc; padding: 1rem; border-bottom: 1px solid #e2e8f0;">Roles</th>
+                        <td style="color: #334155 !important; font-weight: 500; padding: 1rem; border-bottom: 1px solid #e2e8f0;">
+                            {% for role in user.roles %}
+                                {% if role == 'ROLE_ADMIN' %}
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800" style="color: #991b1b !important; background: #fee2e2;">Admin</span>
+                                {% elseif role == 'ROLE_STAFF' %}
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800" style="color: #1e40af !important; background: #dbeafe;">Staff</span>
+                                {% else %}
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800" style="color: #374151 !important; background: #f3f4f6;">{{ role }}</span>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="color: #0f172a !important; font-weight: 700; background: #f8fafc; padding: 1rem; border-bottom: 1px solid #e2e8f0;">Created At</th>
+                        <td style="color: #334155 !important; font-weight: 500; padding: 1rem; border-bottom: 1px solid #e2e8f0;">{{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                        <th style="color: #0f172a !important; font-weight: 700; background: #f8fafc; padding: 1rem;">Updated At</th>
+                        <td style="color: #334155 !important; font-weight: 500; padding: 1rem;">{{ user.updatedAt ? user.updatedAt|date('Y-m-d H:i:s') : 'N/A' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8 pt-6 border-t" style="border-color: #e2e8f0;">
+            <a href="{{ path('app_user_index') }}" class="btn-secondary w-full sm:w-auto">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                Back to list
+            </a>
+            <div class="flex gap-3 w-full sm:w-auto">
+                <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="btn-primary w-full sm:w-auto">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                    </svg>
+                    Edit User
+                </a>
+                {{ include('users/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

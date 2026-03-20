@@ -1,52 +1,339 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SKADOOSH{% endblock %}</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts - Inter (TailAdmin Style) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Modern Typography - Inter Font */
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        <script>
-        document.querySelectorAll('.dropdown').forEach(function(dropdown) {
-            const trigger = dropdown.querySelector('[role="button"]');
-            const menu = dropdown.querySelector('.dropdown-content, .menu');
-            if (trigger && menu) {
-                trigger.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    // Hide all other dropdowns
-                    document.querySelectorAll('.dropdown-content.show, .menu.menu-sm.dropdown-content.show').forEach(function(otherMenu) {
-                        if (otherMenu !== menu) {
-                            otherMenu.classList.remove('show');
-                        }
-                    });
-                    // Toggle this dropdown
-                    menu.classList.toggle('show');
-                });
-            }
-        });
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            background-attachment: fixed;
+            margin: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #1e293b !important;
+            font-weight: 400;
+        }
 
-        // Special logic: clicking the indicator hides the avatar dropdown
-        document.addEventListener('click', function(e) {
-            // If indicator is clicked
-            const indicatorBtn = document.querySelector('.btn-ghost.btn-circle:not(.avatar)');
-            const avatarMenu = document.querySelector('.avatar ~ .menu.menu-sm.dropdown-content, .avatar ~ .dropdown-content');
-            if (indicatorBtn && avatarMenu && indicatorBtn.contains(e.target)) {
-                avatarMenu.classList.remove('show');
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700 !important;
+            color: #0f172a !important;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        p, span, div, label, a {
+            color: #334155 !important;
+            font-weight: 400;
+        }
+
+        /* Smart font color - adapts to background */
+        body, body * {
+            color: #111827 !important;
+        }
+
+        /* White/light backgrounds - dark text */
+        .bg-white, .bg-gray-50, .bg-gray-100,
+        [style*="background-color: rgba(255, 255, 255"],
+        [style*="background: white"] {
+            color: #111827 !important;
+        }
+
+        .bg-white *, .bg-gray-50 *, .bg-gray-100 *,
+        [style*="background-color: rgba(255, 255, 255"] * {
+            color: #111827 !important;
+        }
+
+        /* Dark backgrounds - light text */
+        .bg-slate-800, .bg-slate-700, .bg-slate-900, .dark,
+        [style*="background-color: rgba(30, 41, 59"],
+        [style*="background: #1e293b"] {
+            color: #f8fafc !important;
+        }
+
+        .bg-slate-800 *, .bg-slate-700 *, .bg-slate-900 *, .dark *,
+        [style*="background-color: rgba(30, 41, 59"] * {
+            color: #f8fafc !important;
+        }
+
+        /* Better contrast for text */
+        h1, h2, h3, h4, h5, h6 {
+            color: #000000 !important;
+            font-weight: 700;
+        }
+
+        /* Override for dark backgrounds */
+        .bg-slate-800 h1, .bg-slate-800 h2, .bg-slate-800 h3,
+        .bg-slate-700 h1, .bg-slate-700 h2, .bg-slate-700 h3,
+        .dark h1, .dark h2, .dark h3 {
+            color: #ffffff !important;
+        }
+
+        p, span, div, label, a {
+            color: #111827 !important;
+        }
+
+        /* Override light text on white backgrounds */
+        .bg-white .text-gray-400, .bg-white .text-gray-500, .bg-white .text-gray-600 {
+            color: #4b5563 !important;
+        }
+
+        /* Override dark text on dark backgrounds */
+        .bg-slate-800 .text-gray-900, .bg-slate-700 .text-gray-900 {
+            color: #f8fafc !important;
+        }
+
+        /* Main content area with better visibility */
+        main {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 1rem;
+            padding: 2rem !important;
+            margin: 1rem auto;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Modern Card Styles */
+        .card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.15), 0 8px 12px -4px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Modern Button Styles */
+        .btn-primary, button.btn-primary, a.btn-primary {
+            background: linear-gradient(135deg, #7a0000 0%, #9a0000 100%);
+            color: #ffffff !important;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            letter-spacing: 0.01em;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 1px 3px 0 rgba(122, 0, 0, 0.2);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif !important;
+        }
+
+        .btn-primary:hover, button.btn-primary:hover, a.btn-primary:hover {
+            background: linear-gradient(135deg, #6a0000 0%, #8a0000 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(122, 0, 0, 0.35);
+            color: #ffffff !important;
+        }
+
+        .btn-secondary {
+            background-color: #f3f4f6;
+            color: #374151;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-secondary:hover {
+            background-color: #e5e7eb;
+        }
+
+        /* Input Focus Styles */
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        input[type="email"]:focus,
+        input[type="number"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #7a0000;
+            box-shadow: 0 0 0 3px rgba(122, 0, 0, 0.1);
+        }
+
+        /* Enhanced form inputs */
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        input[type="number"],
+        textarea,
+        select {
+            transition: all 0.2s ease;
+        }
+
+        /* Smooth transitions for interactive elements */
+        a, button {
+            transition: all 0.2s ease;
+        }
+
+        /* Override any light text colors */
+        .text-gray-400, .text-gray-500, .text-gray-600 {
+            color: #111827 !important;
+        }
+
+        /* Ensure links are visible */
+        a:not(.btn-primary) {
+            color: #111827 !important;
+        }
+
+        a:not(.btn-primary):hover {
+            color: #7a0000 !important;
+        }
+
+        /* Dark mode support */
+        .dark body {
+            background-color: #0f172a;
+        }
+
+        .dark body * {
+            color: #e2e8f0 !important;
+        }
+
+        .dark .card {
+            background-color: #1e293b;
+            border-color: #334155;
+        }
+
+        .dark input {
+            background-color: #0f172a;
+            border-color: #334155;
+            color: #e2e8f0 !important;
+        }
+
+        .dark input:focus {
+            border-color: #7a0000;
+            box-shadow: 0 0 0 3px rgba(122, 0, 0, 0.2);
+        }
+
+        .dark main {
+            background-color: rgba(30, 41, 59, 0.95) !important;
+        }
+
+        /* Smooth animations */
+        main {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
             }
-            // Hide all dropdowns if clicking outside
-            document.querySelectorAll('.dropdown-content.show, .menu.menu-sm.dropdown-content.show').forEach(function(menu) {
-                if (!menu.contains(e.target)) {
-                    menu.classList.remove('show');
-                }
-            });
-        });
-        </script>
-    </body>
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Enhanced button interactions */
+        .btn-primary, .btn-secondary, button, a.btn {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-primary:active, .btn-secondary:active, button:active {
+            transform: scale(0.98);
+        }
+    </style>
+    
+    {% block stylesheets %}{% endblock %}
+</head>
+<body class="bg-gray-50 dark:bg-slate-900 min-h-screen flex flex-col">
+    <!-- Simple Header - Dark Background for Logo Visibility -->
+    <header class="shadow-lg border-b-2" style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%) !important; border-color: #7a0000 !important; border-width: 3px;">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo - Enhanced Visibility on Dark Background -->
+                <div class="flex items-center">
+                    <a href="{{ path('app_page') }}">
+                        <img src="{{ asset('Logo.png') }}" alt="SKADOOSH Logo" class="h-16 w-auto transition-transform hover:scale-105" style="filter: brightness(1.2) drop-shadow(0 2px 4px rgba(255,255,255,0.3));">
+                    </a>
+                </div>
+
+                <!-- Navigation Links -->
+                <div class="flex items-center space-x-4">
+                    {% if app.user %}
+                        <span class="text-sm font-semibold" style="color: #f8fafc !important; font-weight: 500;">
+                            Welcome, <strong style="color: #fbbf24 !important; font-weight: 700;">{{ app.user.userIdentifier }}</strong>
+                        </span>
+                        {% if 'ROLE_ADMIN' in app.user.roles %}
+                            <a href="{{ path('app_admin_dashboard') }}" class="text-sm font-semibold transition-colors hover:underline" style="color: #f8fafc !important; font-weight: 600;">
+                                Admin Dashboard
+                            </a>
+                        {% elseif 'ROLE_STAFF' in app.user.roles %}
+                            <a href="{{ path('app_products_index') }}" class="text-sm font-semibold transition-colors hover:underline" style="color: #f8fafc !important; font-weight: 600;">
+                                Products
+                            </a>
+                        {% endif %}
+                        <a href="{{ path('app_logout') }}" class="text-sm font-semibold transition-colors hover:underline" style="color: #fbbf24 !important; font-weight: 600;">
+                            Logout
+                        </a>
+                    {% else %}
+                        <a href="{{ path('app_login') }}" class="text-sm font-semibold transition-colors hover:underline" style="color: #f8fafc !important; font-weight: 600;">
+                            Sign In
+                        </a>
+                        <a href="{{ path('app_register') }}" class="btn-primary text-sm px-5 py-2.5 font-semibold rounded-lg">
+                            Register
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 container mx-auto px-6 py-8" style="background-color: rgba(255, 255, 255, 0.95) !important; border-radius: 1rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+        <div style="color: #111827 !important;">
+            {% block body %}{% endblock %}
+        </div>
+    </main>
+
+    <!-- Simple Footer -->
+    <footer class="bg-white dark:bg-slate-800 border-t border-gray-200 dark:border-slate-700 mt-auto" style="background-color: rgba(255, 255, 255, 0.98) !important;">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <p class="text-sm font-semibold" style="color: #111827 !important;">
+                    &copy; {{ "now"|date("Y") }} SKADOOSH. All rights reserved.
+                </p>
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="text-sm font-medium hover:text-red-600 transition-colors" style="color: #111827 !important;">
+                        Privacy Policy
+                    </a>
+                    <a href="#" class="text-sm font-medium hover:text-red-600 transition-colors" style="color: #111827 !important;">
+                        Terms of Service
+                    </a>
+                    <a href="#" class="text-sm font-medium hover:text-red-600 transition-colors" style="color: #111827 !important;">
+                        Contact
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    {% block javascripts %}{% endblock %}
+</body>
 </html>

@@ -1,0 +1,81 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}My Profile - SKADOOSH{% endblock %}
+{% block page_title %}My Profile{% endblock %}
+
+{% block body %}
+<div class="max-w-4xl mx-auto">
+    <div class="bg-white rounded-xl shadow-lg p-8">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold" style="color: #111827 !important;">Profile Information</h2>
+            <a href="{{ path('app_profile_edit') }}" class="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-all">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                </svg>
+                Edit Profile
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold mb-2" style="color: #111827 !important;">Username</label>
+                    <div class="p-3 bg-gray-50 rounded-lg border border-gray-200" style="color: #111827 !important;">
+                        {{ user.username }}
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-2" style="color: #111827 !important;">Email</label>
+                    <div class="p-3 bg-gray-50 rounded-lg border border-gray-200" style="color: #111827 !important;">
+                        {{ user.email ?: 'Not set' }}
+                    </div>
+                </div>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold mb-2" style="color: #111827 !important;">Full Name</label>
+                    <div class="p-3 bg-gray-50 rounded-lg border border-gray-200" style="color: #111827 !important;">
+                        {{ user.fullName ?: 'Not set' }}
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-2" style="color: #111827 !important;">Role</label>
+                    <div class="p-3 bg-gray-50 rounded-lg border border-gray-200">
+                        {% if 'ROLE_ADMIN' in user.roles %}
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-purple-100 text-purple-800">
+                                Administrator
+                            </span>
+                        {% elseif 'ROLE_STAFF' in user.roles %}
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-blue-100 text-blue-800">
+                                Staff Member
+                            </span>
+                        {% else %}
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-gray-100 text-gray-800">
+                                User
+                            </span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-6 pt-6 border-t border-gray-200">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-semibold mb-2" style="color: #111827 !important;">Account Created</label>
+                    <div class="p-3 bg-gray-50 rounded-lg border border-gray-200" style="color: #111827 !important;">
+                        {{ user.createdAt ? user.createdAt|date('F d, Y') : 'N/A' }}
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-2" style="color: #111827 !important;">Last Updated</label>
+                    <div class="p-3 bg-gray-50 rounded-lg border border-gray-200" style="color: #111827 !important;">
+                        {{ user.updatedAt ? user.updatedAt|date('F d, Y') : 'N/A' }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

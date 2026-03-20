@@ -1,0 +1,295 @@
+{% extends 'admin_base.html.twig' %}
+{% block title %}Dashboard - SKADOOSH{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+{% block breadcrumb_items %}
+    <span>Overview</span>
+{% endblock %}
+
+{% block body %}
+<div class="space-y-6">
+    <!-- Welcome Header - TailAdmin Style -->
+    <div class="bg-gradient-to-r from-[#7a0000] via-[#8a0000] to-[#9a0000] rounded-xl p-6 sm:p-8 text-white shadow-xl mb-6">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between">
+            <div class="mb-4 sm:mb-0">
+                <h1 class="text-3xl sm:text-4xl font-bold mb-2" style="color: #ffffff !important; font-weight: 800; letter-spacing: -0.02em;">Welcome back, {{ app.user.fullName ?: app.user.userIdentifier }}!</h1>
+                <p class="text-base sm:text-lg" style="color: rgba(255, 255, 255, 0.95) !important; font-weight: 400;">Here's what's happening with your business today.</p>
+            </div>
+            <div class="flex items-center space-x-2">
+                <div class="bg-white/20 backdrop-blur-sm rounded-lg px-4 py-2">
+                    <p class="text-xs text-red-100">Last login</p>
+                    <p class="text-sm font-semibold">{{ "now"|date("M d, Y") }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Cards - TailAdmin Style -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Total Products -->
+        <div class="stats-card">
+            <div class="flex items-center justify-between">
+                <div class="flex-1">
+                    <p class="text-sm font-semibold mb-1" style="color: #64748b !important; font-weight: 500;">Total Products</p>
+                    <p class="text-3xl font-bold mb-2" style="color: #0f172a !important; font-weight: 700; letter-spacing: -0.02em;">{{ totalProducts }}</p>
+                    <div class="flex items-center text-sm">
+                        <span class="font-medium flex items-center" style="color: #16a34a !important; font-weight: 500;">
+                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Active
+                        </span>
+                    </div>
+                </div>
+                <div class="p-3 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Orders -->
+        <div class="stats-card">
+            <div class="flex items-center justify-between">
+                <div class="flex-1">
+                    <p class="text-sm font-semibold mb-1" style="color: #64748b !important; font-weight: 500;">Total Orders</p>
+                    <p class="text-3xl font-bold mb-2" style="color: #0f172a !important; font-weight: 700; letter-spacing: -0.02em;">{{ totalOrders }}</p>
+                    <div class="flex items-center text-sm">
+                        <span class="font-medium flex items-center" style="color: #16a34a !important; font-weight: 500;">
+                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Processing
+                        </span>
+                    </div>
+                </div>
+                <div class="p-3 bg-gradient-to-br from-green-500 to-green-600 rounded-xl shadow-lg">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Revenue -->
+        <div class="stats-card">
+            <div class="flex items-center justify-between">
+                <div class="flex-1">
+                    <p class="text-sm font-semibold mb-1" style="color: #64748b !important; font-weight: 500;">Total Revenue</p>
+                    <p class="text-3xl font-bold mb-2" style="color: #0f172a !important; font-weight: 700; letter-spacing: -0.02em;">₱{{ totalRevenue|number_format(2, '.', ',') }}</p>
+                    <div class="flex items-center text-sm">
+                        <span class="font-medium flex items-center" style="color: #16a34a !important; font-weight: 500;">
+                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Growing
+                        </span>
+                    </div>
+                </div>
+                <div class="p-3 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-xl shadow-lg">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Users -->
+        <div class="stats-card">
+            <div class="flex items-center justify-between">
+                <div class="flex-1">
+                    <p class="text-sm font-semibold mb-1" style="color: #64748b !important; font-weight: 500;">Total Users</p>
+                    <p class="text-3xl font-bold mb-2" style="color: #0f172a !important; font-weight: 700; letter-spacing: -0.02em;">{{ totalUsers }}</p>
+                    <div class="flex items-center text-sm">
+                        <span class="font-medium" style="color: #64748b !important; font-weight: 500;">
+                            {{ totalAdmins }} Admins, {{ totalStaff }} Staff
+                        </span>
+                    </div>
+                </div>
+                <div class="p-3 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl shadow-lg">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts and Analytics - TailAdmin Style -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Sales Chart -->
+        <div class="card p-6">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h3 class="text-lg font-bold mb-1" style="color: #0f172a !important; font-weight: 700;">Sales Overview</h3>
+                    <p class="text-sm" style="color: #64748b !important; font-weight: 400;">Revenue trends over time</p>
+                </div>
+                <div class="flex space-x-2">
+                    <button class="px-3 py-1.5 text-sm font-semibold rounded-lg shadow-sm" style="background: #7a0000; color: #ffffff !important; font-weight: 600;">7D</button>
+                    <button class="px-3 py-1.5 text-sm font-semibold rounded-lg transition-colors hover:bg-gray-100" style="color: #475569 !important; font-weight: 600; background: #ffffff; border: 1.5px solid #e2e8f0;">30D</button>
+                    <button class="px-3 py-1.5 text-sm font-semibold rounded-lg transition-colors hover:bg-gray-100" style="color: #475569 !important; font-weight: 600; background: #ffffff; border: 1.5px solid #e2e8f0;">90D</button>
+                </div>
+            </div>
+            <div class="h-64">
+                <canvas id="salesChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Recent Orders -->
+        <div class="card p-6">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h3 class="text-lg font-bold mb-1" style="color: #0f172a !important; font-weight: 700;">Recent Orders</h3>
+                    <p class="text-sm" style="color: #64748b !important; font-weight: 400;">Latest order activities</p>
+                </div>
+                <a href="{{ path('app_orders_index') }}" class="text-sm font-semibold transition-colors" style="color: #7a0000 !important; font-weight: 600;">View all →</a>
+            </div>
+            <div class="space-y-4">
+                {% if recentOrders|length > 0 %}
+                    {% for order in recentOrders %}
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg" style="background: #f8fafc !important;">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-8 h-8 {% if order.status == 'Completed' %}bg-green-100{% elseif order.status == 'Processing' %}bg-yellow-100{% elseif order.status == 'Pending' %}bg-blue-100{% else %}bg-red-100{% endif %} rounded-full flex items-center justify-center">
+                                {% if order.status == 'Completed' %}
+                                    <svg class="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                {% elseif order.status == 'Processing' %}
+                                    <svg class="w-4 h-4 text-yellow-600" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                                    </svg>
+                                {% else %}
+                                    <svg class="w-4 h-4 {% if order.status == 'Pending' %}text-blue-600{% else %}text-red-600{% endif %}" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                                    </svg>
+                                {% endif %}
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium" style="color: #0f172a !important; font-weight: 600;">Order #{{ order.id }}</p>
+                                <p class="text-xs" style="color: #64748b !important; font-weight: 400;">{{ order.customerName }}</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm font-semibold" style="color: #0f172a !important; font-weight: 700;">₱{{ order.totalPrice|number_format(2, '.', ',') }}</p>
+                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium" 
+                                style="{% if order.status == 'Completed' %}background: #d1fae5 !important; color: #065f46 !important;
+                                {% elseif order.status == 'Processing' %}background: #fef3c7 !important; color: #92400e !important;
+                                {% elseif order.status == 'Pending' %}background: #dbeafe !important; color: #1e40af !important;
+                                {% else %}background: #fee2e2 !important; color: #991b1b !important;{% endif %} font-weight: 600;">{{ order.status }}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="text-center py-8">
+                        <svg class="mx-auto h-12 w-12 mb-4" style="color: #94a3b8;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                        </svg>
+                        <h3 class="text-lg font-medium mb-2" style="color: #0f172a !important; font-weight: 600;">No recent orders</h3>
+                        <p class="text-sm" style="color: #64748b !important; font-weight: 400;">Orders will appear here as they come in.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions - TailAdmin Style -->
+    <div class="card p-6">
+        <div class="mb-6">
+            <h3 class="text-lg font-bold mb-1" style="color: #0f172a !important; font-weight: 700;">Quick Actions</h3>
+            <p class="text-sm" style="color: #64748b !important; font-weight: 400;">Common tasks and shortcuts</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <a href="{{ path('app_products_new') }}" class="flex items-center p-4 bg-gradient-to-r from-red-50 to-red-100 rounded-xl hover:from-red-100 hover:to-red-200 transition-all transform hover:scale-105 border border-red-200">
+                <div class="p-3 bg-[#7a0000] rounded-xl mr-4 shadow-lg">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="font-bold" style="color: #0f172a !important; font-weight: 700;">Add Product</p>
+                    <p class="text-sm" style="color: #64748b !important; font-weight: 400;">Create new product</p>
+                </div>
+            </a>
+
+            <a href="{{ path('app_orders_new') }}" class="flex items-center p-4 bg-gradient-to-r from-green-50 to-green-100 rounded-xl hover:from-green-100 hover:to-green-200 transition-all transform hover:scale-105 border border-green-200">
+                <div class="p-3 bg-green-600 rounded-xl mr-4 shadow-lg">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="font-bold" style="color: #0f172a !important; font-weight: 700;">New Order</p>
+                    <p class="text-sm" style="color: #64748b !important; font-weight: 400;">Process order</p>
+                </div>
+            </a>
+
+            <a href="{{ path('app_user_index') }}" class="flex items-center p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl hover:from-blue-100 hover:to-blue-200 transition-all transform hover:scale-105 border border-blue-200">
+                <div class="p-3 bg-blue-600 rounded-xl mr-4 shadow-lg">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="font-bold" style="color: #0f172a !important; font-weight: 700;">Manage Users</p>
+                    <p class="text-sm" style="color: #64748b !important; font-weight: 400;">{{ totalUsers }} users ({{ totalAdmins }} admins, {{ totalStaff }} staff)</p>
+                </div>
+            </a>
+
+            <a href="{{ path('app_activity_log_index') }}" class="flex items-center p-4 bg-gradient-to-r from-purple-50 to-purple-100 rounded-xl hover:from-purple-100 hover:to-purple-200 transition-all transform hover:scale-105 border border-purple-200">
+                <div class="p-3 bg-purple-600 rounded-xl mr-4 shadow-lg">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="font-bold" style="color: #0f172a !important; font-weight: 700;">Activity Logs</p>
+                    <p class="text-sm" style="color: #64748b !important; font-weight: 400;">View all system activities</p>
+                </div>
+            </a>
+
+        </div>
+    </div>
+</div>
+
+<script>
+// Sales Chart
+const ctx = document.getElementById('salesChart').getContext('2d');
+const salesChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        datasets: [{
+            label: 'Sales',
+            data: [12000, 19000, 15000, 25000, 22000, 30000, 28000],
+            borderColor: '#7a0000',
+            backgroundColor: 'rgba(122, 0, 0, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                grid: {
+                    color: 'rgba(0, 0, 0, 0.1)'
+                }
+            },
+            x: {
+                grid: {
+                    display: false
+                }
+            }
+        }
+        }
+    });
+</script>
+{% endblock %}

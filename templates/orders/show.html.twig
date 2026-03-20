@@ -1,0 +1,96 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}Order Details - SKADOOSH{% endblock %}
+{% block page_title %}Order Details{% endblock %}
+{% block breadcrumb_items %}
+    <a href="{{ path('app_orders_index') }}" style="color: #7a0000 !important; text-decoration: none; font-weight: 500;">Orders</a>
+    <span style="color: #94a3b8;">/</span>
+    <span style="color: #334155; font-weight: 500;">Details</span>
+{% endblock %}
+
+{% block body %}
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-[#7a0000] via-[#8a0000] to-[#9a0000] rounded-xl p-6 sm:p-8 text-white mb-6 shadow-xl">
+        <h1 class="text-3xl sm:text-4xl font-bold mb-2" style="color: #ffffff !important; font-weight: 800; letter-spacing: -0.02em;">Order Details</h1>
+        <p class="text-base sm:text-lg" style="color: rgba(255, 255, 255, 0.95) !important; font-weight: 400;">View order information and details</p>
+    </div>
+
+    <!-- Details Card -->
+    <div class="card p-6 sm:p-8">
+        <div class="overflow-x-auto">
+            <table class="table-modern w-full">
+                <tbody>
+                    <tr>
+                        <th style="color: #0f172a !important; font-weight: 700; background: #f8fafc; padding: 1rem; border-bottom: 1px solid #e2e8f0;">ID</th>
+                        <td style="color: #334155 !important; font-weight: 500; padding: 1rem; border-bottom: 1px solid #e2e8f0;">{{ order.id }}</td>
+                    </tr>
+                    <tr>
+                        <th style="color: #0f172a !important; font-weight: 700; background: #f8fafc; padding: 1rem; border-bottom: 1px solid #e2e8f0;">Customer Name</th>
+                        <td style="color: #334155 !important; font-weight: 500; padding: 1rem; border-bottom: 1px solid #e2e8f0;">{{ order.customerName }}</td>
+                    </tr>
+                    <tr>
+                        <th style="color: #0f172a !important; font-weight: 700; background: #f8fafc; padding: 1rem; border-bottom: 1px solid #e2e8f0;">Email</th>
+                        <td style="color: #334155 !important; font-weight: 500; padding: 1rem; border-bottom: 1px solid #e2e8f0;">{{ order.customerEmail }}</td>
+                    </tr>
+                    <tr>
+                        <th style="color: #0f172a !important; font-weight: 700; background: #f8fafc; padding: 1rem; border-bottom: 1px solid #e2e8f0;">Shipping Address</th>
+                        <td style="color: #334155 !important; font-weight: 500; padding: 1rem; border-bottom: 1px solid #e2e8f0;">{{ order.shippingAddress }}</td>
+                    </tr>
+                    <tr>
+                        <th style="color: #0f172a !important; font-weight: 700; background: #f8fafc; padding: 1rem; border-bottom: 1px solid #e2e8f0;">Status</th>
+                        <td style="color: #334155 !important; font-weight: 500; padding: 1rem; border-bottom: 1px solid #e2e8f0;">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium 
+                                {% if order.status == 'Completed' %}bg-green-100 text-green-800
+                                {% elseif order.status == 'Processing' %}bg-yellow-100 text-yellow-800
+                                {% elseif order.status == 'Pending' %}bg-blue-100 text-blue-800
+                                {% else %}bg-red-100 text-red-800{% endif %}" 
+                                style="{% if order.status == 'Completed' %}background: #d1fae5 !important; color: #065f46 !important;
+                                {% elseif order.status == 'Processing' %}background: #fef3c7 !important; color: #92400e !important;
+                                {% elseif order.status == 'Pending' %}background: #dbeafe !important; color: #1e40af !important;
+                                {% else %}background: #fee2e2 !important; color: #991b1b !important;{% endif %}">
+                                {{ order.status }}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="color: #0f172a !important; font-weight: 700; background: #f8fafc; padding: 1rem; border-bottom: 1px solid #e2e8f0;">Total Price</th>
+                        <td style="color: #7a0000 !important; font-weight: 700; padding: 1rem; border-bottom: 1px solid #e2e8f0;">₱{{ order.totalPrice|number_format(2, '.', ',') }}</td>
+                    </tr>
+                    <tr>
+                        <th style="color: #0f172a !important; font-weight: 700; background: #f8fafc; padding: 1rem; border-bottom: 1px solid #e2e8f0;">Processed By</th>
+                        <td style="color: #334155 !important; font-weight: 500; padding: 1rem; border-bottom: 1px solid #e2e8f0;">{{ order.processedBy ? order.processedBy.fullName : '—' }}</td>
+                    </tr>
+                    <tr>
+                        <th style="color: #0f172a !important; font-weight: 700; background: #f8fafc; padding: 1rem; border-bottom: 1px solid #e2e8f0;">Created At</th>
+                        <td style="color: #334155 !important; font-weight: 500; padding: 1rem; border-bottom: 1px solid #e2e8f0;">{{ order.createdAt ? order.createdAt|date('Y-m-d H:i') : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th style="color: #0f172a !important; font-weight: 700; background: #f8fafc; padding: 1rem;">Updated At</th>
+                        <td style="color: #334155 !important; font-weight: 500; padding: 1rem;">{{ order.updatedAt ? order.updatedAt|date('Y-m-d H:i') : '' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8 pt-6 border-t" style="border-color: #e2e8f0;">
+            <a href="{{ path('app_orders_index') }}" class="btn-secondary w-full sm:w-auto">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                Back to list
+            </a>
+            <div class="flex gap-3 w-full sm:w-auto">
+                <a href="{{ path('app_orders_edit', {'id': order.id}) }}" class="btn-primary w-full sm:w-auto">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                    </svg>
+                    Edit Order
+                </a>
+                {{ include('orders/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
