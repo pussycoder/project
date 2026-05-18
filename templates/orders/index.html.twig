@@ -1,0 +1,255 @@
+{% extends 'admin_base.html.twig' %}
+{% block title %}Orders Management - SKADOOSH{% endblock %}
+{% block page_title %}Orders Management{% endblock %}
+
+{% block body %}
+<div class="space-y-6">
+    <!-- Header Section -->
+    <div class="bg-gradient-to-r from-red-600 to-red-700 rounded-xl p-4 sm:p-6 text-white mb-6 shadow-lg">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+            <div>
+                <h1 class="text-2xl sm:text-3xl font-bold mb-2">Orders Management</h1>
+                <p class="text-red-100 text-sm">Manage customer orders and track their status</p>
+            </div>
+            <div class="mt-4 sm:mt-0">
+                {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('app_orders_new') }}" class="inline-flex items-center px-4 sm:px-5 py-2.5 sm:py-3 bg-white text-red-600 font-bold rounded-xl shadow-lg hover:bg-gray-50 transition-all transform hover:scale-105 active:scale-95 text-sm sm:text-base">
+                    <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                    </svg>
+                    New Order
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div class="card p-4">
+            <div class="flex items-center">
+                <div class="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
+                    <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Orders</p>
+                    <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ orders|length }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card p-4">
+            <div class="flex items-center">
+                <div class="p-2 bg-yellow-100 dark:bg-yellow-900 rounded-lg">
+                    <svg class="w-6 h-6 text-yellow-600 dark:text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Pending</p>
+                    <p class="text-2xl font-bold text-gray-900 dark:text-white">
+                        {{ orders|filter(order => order.status == 'Pending')|length }}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card p-4">
+            <div class="flex items-center">
+                <div class="p-2 bg-green-100 dark:bg-green-900 rounded-lg">
+                    <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Completed</p>
+                    <p class="text-2xl font-bold text-gray-900 dark:text-white">
+                        {{ orders|filter(order => order.status == 'Completed')|length }}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card p-4">
+            <div class="flex items-center">
+                <div class="p-2 bg-red-100 dark:bg-red-900 rounded-lg">
+                    <svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
+                    </svg>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Revenue</p>
+                    <p class="text-2xl font-bold text-gray-900 dark:text-white">
+                        ₱{% set total = 0 %}{% for order in orders %}{% set total = total + order.totalPrice %}{% endfor %}{{ total|number_format(2, '.', ',') }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Orders Table with DataTables -->
+<div class="card overflow-hidden">
+    <table id="ordersTable" class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gradient-to-r from-[#7a0000] via-[#8a0000] to-[#9a0000]">
+            <tr>
+                <th class="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider" style="color: #ffffff !important;">Order ID</th>
+                <th class="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider" style="color: #ffffff !important;">Customer</th>
+                <th class="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider" style="color: #ffffff !important;">Email</th>
+                <th class="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider" style="color: #ffffff !important;">Products</th>
+                <th class="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider" style="color: #ffffff !important;">Address</th>
+                <th class="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider" style="color: #ffffff !important;">Status</th>
+                <th class="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider" style="color: #ffffff !important;">Total</th>
+                <th class="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider" style="color: #ffffff !important;">Date</th>
+                <th class="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider" style="color: #ffffff !important;">Actions</th>
+            </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+            {% for order in orders %}
+            <tr class="hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold" style="color: #0f172a !important; font-weight: 600;">
+                    #{{ order.id }}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                        <div class="w-9 h-9 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-sm mr-3">
+                            {{ order.customerName|first|upper }}
+                        </div>
+                        <div class="text-sm font-bold" style="color: #0f172a !important; font-weight: 700;">{{ order.customerName }}</div>
+                    </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm font-semibold" style="color: #0f172a !important; font-weight: 600;">{{ order.customerEmail }}</div>
+                </td>
+                <td class="px-6 py-4">
+                    <div class="text-sm font-semibold" style="color: #0f172a !important; font-weight: 600;" title="{{ order.orderedProducts ?: 'No products listed' }}">
+                        {{ order.orderedProducts ? order.orderedProducts|slice(0, 70) ~ (order.orderedProducts|length > 70 ? '...' : '') : 'No products listed' }}
+                    </div>
+                </td>
+                <td class="px-6 py-4">
+                    <div class="text-sm" style="color: #64748b !important; font-weight: 400;" title="{{ order.shippingAddress }}">
+                        {{ order.shippingAddress ? order.shippingAddress|slice(0, 40) ~ '...' : 'No address' }}
+                    </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    {% if order.status == 'Pending' %}
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium" style="background: #fef3c7 !important; color: #92400e !important; font-weight: 600;">
+                            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>
+                            Pending
+                        </span>
+                    {% elseif order.status == 'Processing' %}
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium" style="background: #dbeafe !important; color: #1e40af !important; font-weight: 600;">
+                            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.293l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clip-rule="evenodd"/></svg>
+                            Processing
+                        </span>
+                    {% elseif order.status == 'Completed' %}
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium" style="background: #d1fae5 !important; color: #065f46 !important; font-weight: 600;">
+                            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                            Completed
+                        </span>
+                    {% else %}
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium" style="background: #fee2e2 !important; color: #991b1b !important; font-weight: 600;">
+                            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                            {{ order.status }}
+                        </span>
+                    {% endif %}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm font-bold" style="color: #0f172a !important; font-weight: 700;">₱{{ order.totalPrice|number_format(2, '.', ',') }}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm font-semibold" style="color: #0f172a !important; font-weight: 600;">{{ order.createdAt ? order.createdAt|date('Y-m-d') : '' }}</div>
+                    <div class="text-xs" style="color: #64748b !important; font-weight: 400;">{{ order.createdAt ? order.createdAt|date('g:i A') : '' }}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <div class="flex items-center space-x-2">
+                        <a href="{{ path('app_orders_show', {'id': order.id}) }}"
+                           class="inline-flex items-center px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg transition-colors" title="View">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            </svg>
+                        </a>
+                        <a href="{{ path('app_orders_edit', {'id': order.id}) }}"
+                           class="inline-flex items-center px-3 py-1.5 bg-yellow-50 hover:bg-yellow-100 text-yellow-700 rounded-lg transition-colors" title="Edit">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="9" class="px-6 py-12 text-center">
+                    <svg class="mx-auto h-12 w-12 mb-4" style="color: #94a3b8;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                    </svg>
+                    <h3 class="mt-2 text-sm font-medium" style="color: #0f172a !important; font-weight: 600;">No orders found</h3>
+                    <p class="mt-1 text-sm" style="color: #64748b !important; font-weight: 400;">Get started by creating a new order.</p>
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('app_orders_new') }}" class="inline-flex items-center mt-4 px-4 py-2 bg-red-700 hover:bg-red-800 text-white font-semibold rounded-lg transition-colors">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                        </svg>
+                        New Order
+                    </a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+$(document).ready(function() {
+    if (document.getElementById('ordersTable')) {
+        $('#ordersTable').DataTable({
+            order: [[0, 'desc']],
+            pageLength: 25,
+            lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+            language: {
+                search: "Search:",
+                lengthMenu: "Show _MENU_ entries",
+                info: "Showing _START_ to _END_ of _TOTAL_ orders",
+                infoEmpty: "Showing 0 to 0 of 0 orders",
+                infoFiltered: "(filtered from _MAX_ total orders)",
+                zeroRecords: "No matching orders found",
+                paginate: { first: "First", last: "Last", next: "Next", previous: "Previous" }
+            },
+            dom: '<"flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4"<"flex items-center space-x-2"l><"flex items-center space-x-2"f>>rt<"flex flex-col sm:flex-row sm:items-center sm:justify-between mt-4"<"flex items-center"i><"flex items-center space-x-2"p>>',
+            initComplete: function() {
+                $('.dataTables_wrapper *').css({ 'color': '#0f172a !important' });
+                $('.dataTables_length select').css({ 'color': '#0f172a !important', 'background-color': '#ffffff !important', 'font-weight': '600', 'border': '1.5px solid #cbd5e1' });
+                $('.dataTables_length select option').css({ 'color': '#0f172a !important', 'background-color': '#ffffff !important' });
+                $('.dataTables_length, .dataTables_length *').css({ 'color': '#0f172a !important', 'font-weight': '600' });
+                $('.dataTables_length label').css({ 'color': '#0f172a !important', 'font-weight': '700 !important' });
+                $('.dataTables_filter input').css({ 'color': '#0f172a !important', 'background-color': '#ffffff !important', 'font-weight': '600', 'border': '1.5px solid #cbd5e1' });
+                $('.dataTables_filter, .dataTables_filter *').css({ 'color': '#0f172a !important', 'font-weight': '600' });
+                $('.dataTables_filter label').css({ 'color': '#0f172a !important', 'font-weight': '700 !important' });
+                $('.dataTables_info, .dataTables_info *').css({ 'color': '#0f172a !important', 'font-weight': '600' });
+                $('.dataTables_paginate a').css({ 'color': '#7a0000 !important', 'font-weight': '600' });
+                $('.dataTables_wrapper .flex *, .dataTables_wrapper [class*="flex"] *').css({ 'color': '#0f172a !important', 'font-weight': '600' });
+                $('.dataTables_wrapper .flex label').css({ 'color': '#0f172a !important', 'font-weight': '700' });
+            },
+            drawCallback: function() {
+                $('.dataTables_wrapper *:not(.dataTables_paginate a):not(.paginate_button a)').css({ 'color': '#0f172a !important' });
+                $('.dataTables_length select').css({ 'color': '#0f172a !important', 'background-color': '#ffffff !important', 'font-weight': '600' });
+                $('.dataTables_length, .dataTables_length *').css({ 'color': '#0f172a !important', 'font-weight': '600' });
+                $('.dataTables_length label').css({ 'color': '#0f172a !important', 'font-weight': '700 !important' });
+                $('.dataTables_filter input').css({ 'color': '#0f172a !important', 'background-color': '#ffffff !important', 'font-weight': '600' });
+                $('.dataTables_filter, .dataTables_filter *').css({ 'color': '#0f172a !important', 'font-weight': '600' });
+                $('.dataTables_filter label').css({ 'color': '#0f172a !important', 'font-weight': '700 !important' });
+                $('.dataTables_info, .dataTables_info *').css({ 'color': '#0f172a !important', 'font-weight': '600' });
+                $('.dataTables_paginate a').css({ 'color': '#7a0000 !important', 'font-weight': '600' });
+                $('.dataTables_wrapper .flex *, .dataTables_wrapper [class*="flex"] *').css({ 'color': '#0f172a !important', 'font-weight': '600' });
+                $('.dataTables_wrapper .flex label').css({ 'color': '#0f172a !important', 'font-weight': '700' });
+            }
+        });
+    }
+});
+</script>
+</div>
+{% endblock %}

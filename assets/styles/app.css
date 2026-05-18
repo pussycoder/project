@@ -1,0 +1,166 @@
+@import "tailwindcss";
+@source not "../../public";
+
+    body {
+        background-image: url('Pattern.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
+
+    .navbar {
+        background-color: #7a0000;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        color: white;
+    }
+
+    .navbar.transparent {
+        background-color: transparent !important;
+        color: transparent !important;
+    }
+
+    .navbar.transparent > * {
+        color: transparent !important;
+    }
+
+    .navbar.transparent img,
+    .navbar.transparent svg,
+    .navbar.transparent .btn,
+    .navbar.transparent .indicator,
+    .navbar.transparent .badge,
+    .navbar.transparent a {
+        opacity: 0.3;
+        transition: opacity 0.3s ease;
+    }
+
+    .content-overlay {
+        padding-top: 100px;
+    }
+
+    .carousel {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+        width: 90%;
+        height: 600px; /* Adjust as needed */
+        margin: 0 auto;
+        border-radius: 12px;
+        background-color: #f9f9f9; /* soft background for contain images */
+    }
+
+    .carousel-item {
+        flex: 0 0 auto;
+        scroll-snap-align: center;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .carousel-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain; /* ensures image fits without cropping */
+        border-radius: 12px;
+        transition: transform 0.3s ease;
+        background-color: white; /* optional for cleaner borders */
+    }
+
+    .carousel-item:hover img {
+        transform: scale(1.02);
+    }
+
+    .carousel::-webkit-scrollbar {
+        display: none;
+    }
+
+
+    h1 {
+        text-align: center;
+        font-size: 36px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: black;
+    }
+
+    footer {
+        margin-top: 50px;
+        padding: 20px 0;
+        background-color: #7a0000;
+        color: white;
+        text-align: center;
+    }
+    footer a {
+        color: white;
+        text-decoration: none;
+    }
+    footer a:hover {
+        text-decoration: underline;
+    }
+    footer img {
+    height: 80px;
+    width: auto;
+    filter: brightness(0) invert(1); /* makes logo white if it's dark */
+    margin-bottom: 8px;
+    transition: transform 0.3s ease;
+    }
+
+    footer img:hover {
+        transform: scale(1.05);
+    }
+/* Sidebar collapsed state */
+.sidebar.collapsed {
+    width: 70px;
+    transition: width 0.3s ease;
+}
+
+.sidebar.collapsed h2 {
+    font-size: 1.2rem;
+}
+
+.sidebar.collapsed a {
+    text-align: center;
+    padding: 12px 0;
+}
+
+.sidebar.collapsed a::after {
+    content: "";
+}
+
+/* Adjust navbar and main content */
+.navbar.collapsed {
+    left: 70px;
+    transition: left 0.3s ease;
+}
+
+.main-content.collapsed {
+    margin-left: 70px;
+    transition: margin-left 0.3s ease;
+}
+
+/* Toggle button styling */
+.toggle-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #7a0000;
+    margin-right: 1rem;
+    transition: transform 0.3s;
+}
+
+.toggle-btn:hover {
+    transform: scale(1.1);
+}
+/* Sidebar expanded state */

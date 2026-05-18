@@ -1,0 +1,119 @@
+{{ form_start(form, {'attr': {'class': 'space-y-6'}}) }}
+    <!-- Username Field -->
+    <div>
+        {{ form_label(form.username, 'Username', {
+            'label_attr': {
+                'class': 'block text-sm font-semibold mb-2',
+                'style': 'color: #1e293b !important; font-weight: 600;'
+            }
+        }) }}
+        {{ form_widget(form.username, {
+            'attr': {
+                'class': 'block w-full px-4 py-3 border-1.5 rounded-lg transition-all duration-200 bg-white placeholder-gray-400',
+                'style': 'border-color: #cbd5e1 !important; color: #0f172a !important; font-weight: 500; background: #ffffff !important; font-family: Inter, sans-serif !important;'
+            }
+        }) }}
+        {% if form_errors(form.username) %}
+            <p class="mt-2 text-sm" style="color: #dc2626 !important;">{{ form_errors(form.username) }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Email Field -->
+    <div>
+        {{ form_label(form.email, 'Email', {
+            'label_attr': {
+                'class': 'block text-sm font-semibold mb-2',
+                'style': 'color: #1e293b !important; font-weight: 600;'
+            }
+        }) }}
+        {{ form_widget(form.email, {
+            'attr': {
+                'class': 'block w-full px-4 py-3 border-1.5 rounded-lg transition-all duration-200 bg-white placeholder-gray-400',
+                'style': 'border-color: #cbd5e1 !important; color: #0f172a !important; font-weight: 500; background: #ffffff !important; font-family: Inter, sans-serif !important;'
+            }
+        }) }}
+        {% if form_errors(form.email) %}
+            <p class="mt-2 text-sm" style="color: #dc2626 !important;">{{ form_errors(form.email) }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Full Name Field -->
+    <div>
+        {{ form_label(form.fullName, 'Full Name', {
+            'label_attr': {
+                'class': 'block text-sm font-semibold mb-2',
+                'style': 'color: #1e293b !important; font-weight: 600;'
+            }
+        }) }}
+        {{ form_widget(form.fullName, {
+            'attr': {
+                'class': 'block w-full px-4 py-3 border-1.5 rounded-lg transition-all duration-200 bg-white placeholder-gray-400',
+                'style': 'border-color: #cbd5e1 !important; color: #0f172a !important; font-weight: 500; background: #ffffff !important; font-family: Inter, sans-serif !important;'
+            }
+        }) }}
+        {% if form_errors(form.fullName) %}
+            <p class="mt-2 text-sm" style="color: #dc2626 !important;">{{ form_errors(form.fullName) }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Password Field -->
+    <div>
+        {{ form_label(form.plainPassword, 'Password (leave blank to keep current)', {
+            'label_attr': {
+                'class': 'block text-sm font-semibold mb-2',
+                'style': 'color: #1e293b !important; font-weight: 600;'
+            }
+        }) }}
+        {{ form_widget(form.plainPassword, {
+            'attr': {
+                'class': 'block w-full px-4 py-3 border-1.5 rounded-lg transition-all duration-200 bg-white placeholder-gray-400',
+                'style': 'border-color: #cbd5e1 !important; color: #0f172a !important; font-weight: 500; background: #ffffff !important; font-family: Inter, sans-serif !important;',
+                'placeholder': 'Enter new password (optional)'
+            }
+        }) }}
+        <p class="mt-1 text-xs" style="color: #64748b !important;">Leave blank to keep the current password</p>
+        {% if form_errors(form.plainPassword) %}
+            <p class="mt-2 text-sm" style="color: #dc2626 !important;">{{ form_errors(form.plainPassword) }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Roles Field - Modern Dropdown -->
+    <div>
+        {{ form_label(form.roles, 'Role', {
+            'label_attr': {
+                'class': 'block text-sm font-semibold mb-2',
+                'style': 'color: #1e293b !important; font-weight: 600;'
+            }
+        }) }}
+        <div class="relative">
+            {{ form_widget(form.roles, {
+                'attr': {
+                    'class': 'block w-full px-4 py-3 pr-10 border-1.5 rounded-lg transition-all duration-200 bg-white appearance-none cursor-pointer focus:ring-2 focus:ring-[#7a0000] focus:border-[#7a0000]',
+                    'style': 'border-color: #cbd5e1 !important; color: #0f172a !important; font-weight: 500; background: #ffffff !important; font-family: Inter, sans-serif !important; padding-right: 2.5rem;'
+                }
+            }) }}
+            <!-- Custom Dropdown Arrow -->
+            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                <svg class="w-5 h-5" style="color: #64748b !important;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </div>
+        </div>
+        <p class="mt-1 text-xs" style="color: #64748b !important;">Select a role for this user</p>
+        {% if form_errors(form.roles) %}
+            <p class="mt-2 text-sm" style="color: #dc2626 !important;">{{ form_errors(form.roles) }}</p>
+        {% endif %}
+    </div>
+
+    {{ form_rest(form) }}
+
+    <!-- Submit Button -->
+    <div class="pt-4">
+        <button type="submit" class="btn-primary w-full sm:w-auto px-8 py-3">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            {{ button_label|default('Save') }}
+        </button>
+    </div>
+{{ form_end(form) }}

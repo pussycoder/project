@@ -1,0 +1,140 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}About Us - SKADOOSH{% endblock %}
+
+{% block stylesheets %}
+<style>
+  .page-about .meet-team-chic {
+    --brand: #7a0000;
+    --brand-border: rgba(122, 0, 0, 0.14);
+    --brand-shadow: rgba(15, 23, 42, 0.08);
+    background: transparent;
+  }
+  .page-about figure.team-card {
+    margin: 0;
+    text-align: left;
+    max-width: 240px;
+  }
+  .page-about figure.team-card > img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    border-radius: 14px;
+    border: 1px solid rgba(148, 163, 184, 0.35);
+  }
+  .page-about figure.team-card > figcaption {
+    margin-top: 0.9rem;
+  }
+  .page-about figure.team-card > figcaption strong {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #1f2937;
+    line-height: 1.35;
+  }
+  .page-about figure.team-card > figcaption span {
+    display: block;
+    margin-top: 0.35rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #7a0000;
+    opacity: 0.8;
+  }
+  /* Simple card (clean, like ecommerce team tiles) */
+  .page-about figure.team-card {
+    position: relative;
+    padding: 1rem;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(148, 163, 184, 0.30);
+    box-shadow: 0 16px 34px var(--brand-shadow);
+    transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+  }
+  .page-about figure.team-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(122, 0, 0, 0.25);
+    box-shadow: 0 22px 44px rgba(15, 23, 42, 0.12);
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<section class="page-about">
+  <header class="max-w-3xl mx-auto text-center px-4 pt-8 pb-12">
+    <p class="text-xs font-semibold uppercase tracking-[0.2em] mb-3" style="color:#7a0000;">About</p>
+    <h1 class="text-4xl sm:text-5xl font-semibold tracking-tight" style="color:#7a0000;">Built for comfort. Designed for confidence.</h1>
+    <p class="mt-5 text-lg leading-relaxed" style="color:#4b5563;">
+      SKADOOSH is premium apparel—quality materials, calm design, and a smooth path from browse to delivery.
+    </p>
+  </header>
+
+  <section class="max-w-3xl mx-auto px-4 pb-16 border-t border-red-100 pt-12" aria-labelledby="story-heading">
+    <h2 id="story-heading" class="text-xs font-semibold uppercase tracking-[0.25em] mb-6" style="color:#7a0000;">Our story</h2>
+    <div class="space-y-5 text-base leading-relaxed" style="color:#374151;">
+      <p>
+        We started with a simple idea: everyday clothes should feel as good as they look—without noisy trends or inflated prices.
+      </p>
+      <p>
+        <strong class="text-gray-900">Mission.</strong> Dependable apparel with a premium feel, fair pricing, and service that respects your time.
+        <strong class="text-gray-900 block mt-4">Vision.</strong> To be the staple brand people reach for—where comfort, style, and durability meet.
+      </p>
+    </div>
+    <h3 id="values-heading" class="text-xs font-semibold uppercase tracking-[0.25em] mt-12 mb-4" style="color:#7a0000;">Core values</h3>
+    <ul class="list-none pl-0 space-y-3 border-l-2 pl-5" style="border-color: rgba(122,0,0,0.2); color:#374151;">
+      <li>Quality-first craftsmanship</li>
+      <li>Honest pricing</li>
+      <li>Reliable service</li>
+    </ul>
+  </section>
+
+  <section class="meet-team-chic py-16 sm:py-20 w-full" aria-labelledby="meet-team-heading">
+    <header class="max-w-3xl mx-auto px-4 text-center mb-12">
+      <h2 id="meet-team-heading" class="text-3xl sm:text-4xl font-semibold" style="color:#7a0000;">Meet our team</h2>
+      <p class="mt-4 text-sm sm:text-base max-w-lg mx-auto" style="color:#6b5d5d;">
+        The people who design, build, and support SKADOOSH.
+      </p>
+    </header>
+
+    {% set team = [
+      {'img': 'member1.png', 'name': 'Rham Nino B. Pabro', 'role': 'Project Lead / Full-Stack'},
+      {'img': 'member2.png', 'name': 'Rhambeth', 'role': 'UI/UX Designer'},
+      {'img': 'member3.png', 'name': 'Rham', 'role': 'Front-End Developer'},
+      {'img': 'member4.png', 'name': 'Roooo', 'role': 'Back-End Developer'}
+    ] %}
+
+    <div class="max-w-5xl mx-auto px-4 flex flex-wrap justify-center gap-6 sm:gap-8">
+      {% for member in team %}
+        <figure class="team-card w-[46%] min-w-[150px] sm:w-auto">
+          <img src="{{ asset('images/team/' ~ member.img) }}" alt="{{ member.name }}" loading="lazy" width="200" height="267">
+          <figcaption>
+            <strong>{{ member.name }}</strong>
+            <span>{{ member.role }}</span>
+          </figcaption>
+        </figure>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-4 py-12 border-t border-red-100" aria-label="Trust">
+    <p class="text-center text-sm italic leading-relaxed" style="color:#6b7280;">
+      “We build in the open for class milestones—clear flows, accessible pages, and a brand voice you can trust.”
+    </p>
+    <p class="text-center text-xs mt-3 uppercase tracking-wider" style="color:#9ca3af;">Course project · SKADOOSH</p>
+  </section>
+
+  <section class="max-w-5xl mx-auto px-4 py-12 mb-8 border-t border-red-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+    <div>
+      <h2 class="text-xl sm:text-2xl font-bold" style="color:#111827;">Explore the collection</h2>
+      <p class="mt-1 text-sm" style="color:#6b7280;">Browse products or create an account to get started.</p>
+    </div>
+    <p class="flex flex-wrap gap-3">
+      <a href="{{ path('app_page') }}" class="btn-primary">Home</a>
+      {% if not app.user %}
+        <a href="{{ path('app_register') }}" class="btn-secondary">Create account</a>
+      {% endif %}
+    </p>
+  </section>
+</section>
+{% endblock %}

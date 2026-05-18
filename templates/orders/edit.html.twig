@@ -1,0 +1,37 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}Edit Order - SKADOOSH{% endblock %}
+{% block page_title %}Edit Order{% endblock %}
+{% block breadcrumb_items %}
+    <a href="{{ path('app_orders_index') }}" style="color: #7a0000 !important; text-decoration: none; font-weight: 500;">Orders</a>
+    <span style="color: #94a3b8;">/</span>
+    <span style="color: #334155; font-weight: 500;">Edit</span>
+{% endblock %}
+
+{% block body %}
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-[#7a0000] via-[#8a0000] to-[#9a0000] rounded-xl p-6 sm:p-8 text-white mb-6 shadow-xl">
+        <h1 class="text-3xl sm:text-4xl font-bold mb-2" style="color: #ffffff !important; font-weight: 800; letter-spacing: -0.02em;">Edit Order</h1>
+        <p class="text-base sm:text-lg" style="color: rgba(255, 255, 255, 0.95) !important; font-weight: 400;">Update order information</p>
+    </div>
+
+    <!-- Form Card -->
+    <div class="card p-6 sm:p-8">
+        {{ include('orders/_form.html.twig', {'button_label': 'Update Order'}) }}
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8 pt-6 border-t" style="border-color: #e2e8f0;">
+            <a href="{{ path('app_orders_index') }}" class="btn-secondary w-full sm:w-auto">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                Back to list
+            </a>
+            <div class="flex gap-3 w-full sm:w-auto">
+                {{ include('orders/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

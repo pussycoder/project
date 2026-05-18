@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Verify your account</title>
+</head>
+<body style="font-family: Arial, sans-serif; color: #111827;">
+    <h2 style="color: #7a0000;">Verify your SKADOOSH account</h2>
+    <p>Hello {{ username }},</p>
+    <p>Thank you for registering. Please verify your account by clicking the link below:</p>
+    <p>
+        <a href="{{ verifyUrl }}" style="display:inline-block;padding:10px 14px;background:#7a0000;color:#fff;text-decoration:none;border-radius:6px;">
+            Verify Email
+        </a>
+    </p>
+    <p>If the button does not work, copy this URL into your browser:</p>
+    <p>{{ verifyUrl }}</p>
+</body>
+</html>
+

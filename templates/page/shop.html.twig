@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Shop - SKADOOSH{% endblock %}
+
+{% block stylesheets %}
+<style>
+  body {
+    background-image: url('{{ asset('Pattern.png') }}');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+  .shop-hero {
+    background: linear-gradient(135deg, #0b1220 0%, #1f2a3b 55%, #0b1220 100%);
+  }
+  .shop-card {
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(148, 163, 184, 0.35);
+  }
+  .shop-card:hover { border-color: rgba(122,0,0,0.35); box-shadow: 0 18px 40px rgba(15,23,42,0.10); }
+  .shop-img {
+    background: linear-gradient(180deg, rgba(241,245,249,0.85) 0%, rgba(255,255,255,0.85) 100%);
+  }
+  .shop-price { color: #7a0000; }
+</style>
+{% endblock %}
+
+{% block body %}
+<section class="pb-14">
+  <header class="shop-hero w-full">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+      <p class="text-xs font-semibold uppercase tracking-[0.25em] mb-3" style="color: rgba(255,255,255,0.85) !important;">Shop</p>
+      <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight" style="color: #ffffff !important;">Latest drops</h1>
+      <p class="mt-4 max-w-2xl text-base sm:text-lg leading-relaxed" style="color: rgba(226,232,240,0.92) !important;">
+        Browse products pulled from your database (images come from the uploaded filenames stored per product).
+      </p>
+    </div>
+  </header>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 pt-10">
+    {% if products is empty %}
+      <div class="rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-sm" style="color:#7a0000;">
+        No products found yet. Add at least 5 products (with uploaded images) in Products Management, then refresh this page.
+      </div>
+    {% else %}
+      {% set shown = products|slice(0, 24) %}
+      {% if shown|length < 5 %}
+        <div class="rounded-xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm mb-8" style="color:#92400e;">
+          Only <strong>{{ shown|length }}</strong> product(s) in the database right now. The requirement is at least <strong>5</strong> displayed—add a few more products and refresh.
+        </div>
+      {% endif %}
+
+      <section aria-label="Products" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6">
+        {% for product in shown %}
+          <a href="{{ path('app_shop_product', {'id': product.id}) }}" class="shop-card rounded-2xl overflow-hidden transition-all block hover:-translate-y-[1px]" style="text-decoration:none;">
+            <div class="shop-img aspect-[4/5] w-full overflow-hidden">
+              {% if product.image %}
+                <img
+                  src="{{ asset('uploads/images/' ~ product.image) }}"
+                  alt="{{ product.name }}"
+                  class="w-full h-full object-cover"
+                  loading="lazy"
+                >
+              {% else %}
+                <div class="w-full h-full flex items-center justify-center text-sm" style="color:#64748b;">
+                  No image
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="p-4">
+              <h2 class="text-base font-bold leading-snug" style="color:#0f172a;">{{ product.name }}</h2>
+              <p class="mt-1 text-xs uppercase tracking-wider" style="color:#64748b;">
+                {{ product.category ? product.category.name : 'Uncategorized' }}
+              </p>
+
+              <p class="mt-3 text-sm leading-relaxed" style="color:#334155;">
+                {{ product.description|striptags|slice(0, 95) }}{% if product.description|length > 95 %}…{% endif %}
+              </p>
+
+              <div class="mt-4 flex items-center justify-between gap-3">
+                <span class="shop-price text-lg font-extrabold">₱{{ product.price|number_format(2, '.', ',') }}</span>
+                <span class="text-xs font-semibold px-2 py-1 rounded-full" style="background: rgba(122,0,0,0.08); color:#7a0000;">
+                  In stock
+                </span>
+              </div>
+            </div>
+          </a>
+        {% endfor %}
+      </section>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
+

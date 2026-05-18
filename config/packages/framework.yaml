@@ -1,0 +1,11 @@
+framework:
+    secret: '%env(APP_SECRET)%'
+
+    session: true
+
+    # Important when using ngrok or any reverse proxy
+    trusted_proxies: '127.0.0.1,REMOTE_ADDR'
+    trusted_headers: ['x-forwarded-for', 'x-forwarded-proto', 'x-forwarded-port', 'x-forwarded-host']
+
+    csrf_protection:
+        enabled: true
